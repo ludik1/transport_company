@@ -1,0 +1,400 @@
+/*
+Opravuje chyby vykreslovania grid po prevode na nette2.3.
+Príčiny chýb: aktualizácia pluginov.
+*/
+
+/* app/AdminModule/Datagrids */
+#blocksGrid, #departmentsGrid, #eventsGrid, #galleriesGrid, #jobOffersGrid, 
+#logsGrid, #menuItemPermissionsGrid, #menuItemsGrid, #newsCategoriesGrid, 
+#newsGrid, #pagesGrid, #permissionCategoriesGrid, #permissionsGrid, 
+#phdThesisGrid, #roleUsersGrid, #rolesGrid, #studyProgramsGrid, #usersGrid, 
+#faqGrid,
+/* app/ApiModule/AdminModule/Datagrids */
+#apiKeysGrid, #resourcesGrid, 
+/* app/IngProjectsModule/Datagrids */
+#ingProjects2ApplicationGrid, #ingStudentsOld2OnProjectDetailGrid,
+/* app/SchoolroomsModule/AdminModule/Datagrids */
+#adminGrid, #reservationsGrid, #responsibleGrid, #schoolroomsGrid {
+	margin: 25px 0 20px 0;
+}
+
+.grido td {
+	line-height: normal;
+}
+
+.grido .table .head .actions {
+    width: 5.8%;
+	padding: 0 5px;
+	text-align: left;
+}
+
+.grido .table td.actions a {
+    margin-right: 0px;
+}
+
+.grido .table .buttons, 
+.grido .table .actions {
+	text-align: left;
+}
+
+.grido .table .buttons {
+	padding: 0 5px;
+}
+
+.grido .table .btn {
+	border-radius: 0;
+	margin: 0;
+}
+
+.grido .table .glyphicon {
+	margin: -1px 0 0 0;
+	top: 0;
+}
+
+.grido .table .grid-action-edit, 
+.grido .table .search {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.grido .table .grid-action-edit .icon-pencil{
+	margin-top: -1px;
+}
+
+.grido .table .btn-danger, 
+.grido .table .reset {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-left: -1px;
+}
+
+.grido .btn-danger .glyphicon-trash {
+	margin-top: -1px;
+}
+
+
+/* **************************************************************************
+                                    Obsah 
+   ************************************************************************** */
+
+
+/* ------------------------- newsGrid repairments --------------------------- */
+
+#newsGrid .head .grid-header-title_sk, 
+#newsGrid .head .grid-header-title_en {
+    width: 25%;
+}
+
+#newsGrid .head .grid-header-top_to {
+    width: 8%;
+}
+
+#newsGrid .head .grid-header-is_top {
+    width: 1%;
+}
+
+/* ------------------------- pagesGrid repairments -------------------------- */
+
+#pagesGrid .head .grid-header-title_sk {
+	width: 14%;
+} 
+
+#pagesGrid .head .grid-header-title_en {
+    width: 16%;
+}
+
+#pagesGrid .head .grid-header-created_formatted {
+	width: 12%;
+}
+
+#pagesGrid .head .grid-header-page_id {
+	width: 26%;
+}
+
+#pagesGrid .head .actions {
+    width: 4%;
+}
+
+/* ------------------------ eventsGrid repairments -------------------------- */
+
+#eventsGrid .head .grid-header-title_sk {
+	width: 38%;
+} 
+
+#eventsGrid .head .grid-header-from_formatted,
+#eventsGrid .head .grid-header-to_formatted {
+	width: 10%;
+}
+
+#eventsGrid .head .grid-header-B,
+#eventsGrid .head .grid-header-E {
+	width: 1%;
+}
+
+#eventsGrid .head .grid-header-D {
+	width: 1%;
+}
+
+/* ------------------------ blocksGrid repairments -------------------------- */
+
+#blocksGrid .head .grid-header-label,
+#blocksGrid .head .grid-header-position{
+	width: 15%;
+}
+
+#blocksGrid .head .grid-header-hidden,
+#blocksGrid .head .grid-header-sk,
+#blocksGrid .head .grid-header-en {
+	width: 4%;
+}
+
+#blocksGrid .search, 
+#blocksGrid .reset {
+	float: left;
+}
+
+#blocksGrid .grid-action-positions,
+#blocksGrid .btn-warning,
+#blocksGrid .btn-success {
+	margin-left: -1px;
+}
+
+/* ---------------------- galleriesGrid repairments ------------------------- */
+
+#galleriesGrid .head .grid-header-title_sk {
+	width: 48%;
+}
+
+#galleriesGrid .head .grid-header-title_en {
+	width: 38%;
+}
+
+#galleriesGrid .head .actions {
+    width: 8.25%;
+}
+
+#galleriesGrid .search, 
+#galleriesGrid .reset {
+	float: left;
+}
+
+/* ------------------------- newsGrid repairments --------------------------- */
+
+#faqGrid .head .grid-header-question {
+    width: 50%;
+}
+
+#faqGrid .head .grid-header-page {
+    width: 30%;
+}
+
+/* ----------------------- menuItemGrid repairments ------------------------- */
+
+#menuItemsGrid .head .grid-header-title_sk, 
+#menuItemsGrid .head .grid-header-title_en {
+		width: 19%;
+}
+#menuItemsGrid .head .grid-header-external {
+	width: 10%;
+}
+
+#menuItemsGrid .head .grid-header-item_menu_parent {
+	width: 35%;
+}
+
+/* ---------------------- phdThesisGrid repairments ------------------------- */
+
+#phdThesisGrid .head .grid-header-student {
+	width: 5%;
+}
+
+#phdThesisGrid .head .grid-header-title {
+	width: 25%;
+}
+
+#phdThesisGrid .head .actions {
+    width: 2%;
+}
+
+#phdThesisGrid .btn-danger {
+	border-radius: 4px;
+	margin-left: 0;
+}
+
+/* ---------------------- phdThesisGrid repairments ------------------------- */
+
+#jobOffersGrid .head .actions {
+	width: 0.75%;
+}
+
+
+/* **************************************************************************
+                                    Fakulta 
+   ************************************************************************** */
+
+
+/* --------------------------- usersGrid repairments ------------------------ */
+
+#usersGrid .head .grid-header-displayname, 
+#usersGrid .head .grid-header-mail {
+	width: 34%;
+} 
+
+#usersGrid .head .grid-header-physicaldeliveryofficename {
+	width: 25%;
+}
+
+#usersGrid .head .actions {
+	width: 6.5%;
+}
+
+#usersGrid .grid-action-roles {
+	border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+#usersGrid .grid-action-edit {
+	border-radius: 0;
+	border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+	margin-left: -1px;
+}
+
+/* --------------------------- usersGrid repairments ------------------------ */
+
+#departmentsGrid .head .grid-header-title_sk {
+	width: 5%;
+}
+
+#departmentsGrid .head .actions {
+	width: 0.30%;
+}
+
+/* ---------------------- studyProgramsGrid repairments --------------------- */
+
+#studyProgramsGrid .head .grid-header-active {
+	width: 2%;
+}
+
+#studyProgramsGrid .head .grid-header-shortcut, 
+#studyProgramsGrid .head .grid-header-t_shortcut {
+	width: 1%;
+}
+
+#studyProgramsGrid .head .actions {
+	width: 1.25%;
+}
+
+
+/* **************************************************************************
+                                    Správa 
+   ************************************************************************** */
+
+
+/* -------------------------- logsGrid repairments -------------------------- */
+
+#logsGrid .head .actions {
+	width: 1%;
+}
+
+/* ---------------------- permissionsGrid repairments ----------------------- */
+
+#permissionsGrid .head .actions {
+	width: 0.5%;
+}
+
+#permissionsGrid .grid-action-edit {	
+	border-radius: 4px;
+}
+
+/* ----------------- permissionCategoriesGrid repairments ------------------- */
+
+#permissionCategoriesGrid .head .actions {
+	width: 0.125%;
+}
+
+/* ------------------------- rolesGrid repairments -------------------------- */
+
+#rolesGrid .head .actions {
+	width: 0.115%;
+}
+
+/* ----------------------- resourcesGrid repairments ------------------------ */
+
+#resourcesGrid .head .grid-header-where {
+	width: 15%;
+}
+
+#resourcesGrid .head .grid-header-description {
+	width: 5%;
+}
+
+#resourcesGrid .head .grid-header-authenticate {
+	width: 1%;
+}
+
+#resourcesGrid .head .actions {
+	width: 4.5%;
+}
+
+/* ------------------------ apiKeysGrid repairments ------------------------- */
+
+#apiKeysGrid .head .grid-header-api_key {
+	width: 93.5%;
+}
+
+#apiKeysGrid .head .actions {
+	width: 6.5%;
+}
+
+
+/* **************************************************************************
+                                Ing. Projekty 
+   ************************************************************************** */
+
+/* --------------------- ingMyProjectsGrid repairments ---------------------- */
+
+#ingMyProjectsGrid .head .grid-header-name {
+	width: 60%;
+}
+
+#ingMyProjectsGrid .head .grid-header-sp_name, 
+#ingMyProjectsGrid .head .grid-header-priority {
+	width: 16%;
+}
+
+#ingMyProjectsGrid .head .actions {
+	width: 6.5%;
+}
+
+/* **************************************************************************
+                              Rezervácie učební 
+   ************************************************************************** */
+
+/* ---------------------- schoolroomsGrid repairments ----------------------- */
+
+#schoolroomsGrid .head .grid-header-schoolroom_name {
+	width: 30%;
+}
+
+#schoolroomsGrid .head .grid-header-department_name {
+	width: 63.5%;
+}
+
+#schoolroomsGrid .head .actions {
+	width: 6.5%;
+}
+
+/* ---------------------- responsibleGrid repairments ----------------------- */
+
+#responsibleGrid .head .grid-header-department_id {
+	width: 63.5%;
+}
+
+#responsibleGrid .head .grid-header-displayname {
+	width: 30%;
+}
+
+#responsibleGrid .head .actions {
+	width: 6.5%;
+}

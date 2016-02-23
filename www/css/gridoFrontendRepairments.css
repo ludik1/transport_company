@@ -1,0 +1,113 @@
+/*
+Opravuje chyby vykreslovania grid po prevode na nette2.3.
+Príčiny chýb: aktualizácia pluginov.
+*/
+
+/* app/FrontModule/Datagrids */
+#employeesGrid, #graduantsGrid, #newsGrid, #phdThesisGrid, #studentsGrid {
+	margin: 25px 0 20px 0;
+}
+
+.grido td {
+	line-height: normal;
+}
+
+.grido .table .head .actions {
+    width: 5.8%;
+	padding: 0 5px;
+	text-align: left;
+}
+
+.grido .table td.actions a {
+    margin-right: 0px;
+}
+
+.grido .table .buttons, 
+.grido .table .actions {
+	text-align: left;
+}
+
+.grido .table .buttons {
+	padding: 0 5px;
+}
+
+.grido .table .btn {
+	border-radius: 0px;
+	margin: 0;
+}
+
+.grido .table .glyphicon {
+	margin: -1px 0 0 0;
+	top: 0;
+}
+
+.grido .table .search {
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.grido .table .reset {
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-left: -1px;
+}
+
+
+/* -------------------------- newsGrid repairments -------------------------- */
+
+#newsGrid .head .grid-header-title_sk {
+	width: 16%;
+}
+
+#newsGrid .head .actions {
+	width: 2%;
+}
+
+/* ----------------------- employeesGrid repairments ------------------------ */
+
+#employeesGrid .head .actions {
+	width: 2.5%;
+}
+
+/* ----------------------- graduantsGrid repairments ------------------------ */
+
+#graduantsGrid .head .grid-header-displayname {
+	width: 10%;
+}
+
+#graduantsGrid .head .actions {
+	width: 2%;
+}
+
+/* ------------------------ studentsGrid repairments ------------------------ */
+
+#studentsGrid .head .grid-header-displayname, 
+#studentsGrid .head .grid-header-physicaldeliveryofficename {
+	width: 25%;
+}
+
+#studentsGrid .head .grid-header-mail {
+	width: 35%;
+}
+
+#studentsGrid .head .actions {
+	width: 6.5%;
+}
+
+/* ------------------------ phdThesisGrid repairments ----------------------- */
+
+#phdThesisGrid .head .grid-header-student,
+#phdThesisGrid .head .grid-header-supervisor, 
+#phdThesisGrid .head .grid-header-year_formatted, 
+#phdThesisGrid .head .grid-header-name {
+	width: 10%;
+}
+
+#phdThesisGrid .head .grid-header-title {
+	width: 34.25%;
+}
+
+#phdThesisGrid .head .actions {
+	width: 5.75%;
+}
+

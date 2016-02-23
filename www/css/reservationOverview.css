@@ -1,0 +1,127 @@
+#overview thead tr, .overview-date-cell{
+    background-color:#12919D; 
+    color:white;
+}
+
+.overview-reserved-by{
+    cursor:pointer;
+    display:none;
+    color:black;
+}
+
+.overview-table-wrapper{
+    overflow-x:scroll;
+}
+
+.overview-content-wrapper{
+    margin-left: 0px;
+    overflow-x:hidden;
+}
+
+#overview-headers th{
+    width:120px;
+}
+
+.overview-horizontal{
+    margin-left: 20px;
+    margin-bottom: -20px;
+    position: absolute;
+    display:inline-flex; 
+    left:-20px;
+}
+
+#overview-horizontal-date{
+    z-index:2;
+}
+
+#overview-horizontal-date div{
+    width:72px;
+    height: 30px;
+}
+
+.overview-horizontal th{
+    background-color: #077580;
+    color: white
+}
+
+#overview-vertical{
+    float: left;
+    width: 90px;
+    text-align: center;
+}
+
+#overview-rooms-wrapper{
+    position: absolute;
+}
+#overview-rooms-wrapper th div, .overview-content-wrapper td div{
+    width: 93px;
+}
+
+#overview-rooms-wrapper th {
+    height: 45px;
+    padding: 0px;
+    text-align: center;
+}
+
+#overview-wrapper{
+    position:relative;
+    overflow: hidden;
+}
+
+#overview-vert-cont-wrapper{
+    margin-top:46px;
+}
+
+#front-reservation-overview {
+	text-align: left;
+}
+
+#overview-scroolbar{
+	overflow-x: auto;
+	overflow-y: hidden;
+	margin-left: 0px;
+	height: 20px;
+	position: relative;
+}
+
+.overview-content-wrapper .tooltip-arrow{
+	display:none;
+}
+
+#overview-wrapper {
+    font-size: 9px;
+}
+
+.tooltip-inner{
+    width: 400px !important;
+}
+
+.block-reserved {
+    height: 15px;
+    margin-bottom:-5px;     
+    display: inline-block;
+}
+
+.booking-avaiable .block-reserved {
+    background-color: #566BD5;
+}
+
+.booking-unavaiable .block-reserved {
+    background-color: #777;
+}
+
+.popover-content{
+    font-size:15px;
+}
+
+.booking-avaiable td{
+    cursor: pointer;
+}
+
+td {
+    padding: 0px !important;
+}
+
+.booking-avaiable td:hover {
+    background-color: #6BFF6B;
+}

@@ -1,0 +1,39 @@
+#
+# WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+# https://nette.org/security-warning
+#
+common:
+	parameters:
+		router:
+			secured: TRUE
+
+	php:
+		date.timezone: Europe/Prague
+
+
+	application:
+		errorPresenter: Error
+		mapping:
+			*: App\*Module\Presenters\*Presenter
+
+
+	session:
+		expiration: 14 days
+
+		
+
+	services:
+		router: App\Router\RouterFactory::createRouter(%router.secured%)		
+
+		carsModel: Models\CarsModel
+		usersModel: Models\UsersModel
+		userRolesModel: Models\UserRolesModel
+		productsModel: Models\ProductsModel
+
+		authenticator:
+			class: FRI\User\Authenticator
+
+	extensions:
+		dibi: Dibi\Bridges\Nette\DibiExtension22
+
+development < common:

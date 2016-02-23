@@ -1,0 +1,135 @@
+@media screen and (max-width: 800px) {
+    .container {
+        width: 98%;
+        padding: 0 1%;
+    }
+
+    #logo {
+        top: 10%;
+    }
+
+    #main-nav {
+        margin-top: 0;
+    }
+
+    #main-inner {
+        position: relative;
+    }
+
+    #main-menu > li {
+        line-height: 3em;
+    }
+
+    #main-menu li {
+        float: none;
+        height: auto;
+    }
+
+    #main-menu li ul {
+        display: none;
+    }
+
+    #main-menu li.hover > ul {
+        display: block;
+    }
+
+    #main-menu li a {
+        background: transparent !important;
+        padding: 2px 0 !important;
+    }
+
+    #main-menu ul {
+        display: block;
+        position: static !important;
+        width: 100% !important;
+        left: 0;
+        height: 100%;
+        clear: both;
+        overflow: hidden;
+    }
+
+    #main-menu > li > .parent {
+        background-position: 95% 50%;
+    }
+
+    #main-menu li .parent {
+        background: url("../images/downArrow.png") no-repeat 95% 50% !important;
+    }
+
+    #header .slideshow {
+        height: 120px;
+    }
+
+    #content {
+        padding-right: 0 !important;
+        width: 96% !important;
+    }
+
+    #left-sidebar, #right-sidebar {
+        position: absolute;
+        width: 60% !important;
+        transition: all .5s;
+		top: 55px;
+    }
+
+    .page-title {
+        text-align: center;
+    }
+
+    #left-sidebar {
+        left: -100%;
+    }
+
+    #right-sidebar {
+        right: -100%;
+    }
+
+    #left-sidebar.open {
+        left: 0% !important;
+    }
+
+    #right-sidebar.open {
+        right: 0% !important;
+    }
+
+    #content {
+        transition: margin .5s;
+    }
+
+    #content.offset-left {
+        margin-left: 60%;
+    }
+
+    #content.offset-right {
+        margin-left: -60%;
+    }
+
+    #left-sidebar-toggle, #right-sidebar-toggle {
+        display: block !important;
+        visibility: visible;
+        position: absolute;
+        top: 16px;
+		z-index: 2;
+    }
+
+    #left-sidebar-toggle {
+        left: 2%;
+    }
+
+    #right-sidebar-toggle {
+        right: 2%;
+    }
+
+    .page-title h1 {
+        width: 75%;
+        position: relative;
+        top: 10px;
+        margin: 10px auto;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    .content_box {
+        overflow-x: auto;
+    }
+}

@@ -1,0 +1,18 @@
+dibi:
+		lazy: true
+		charset: utf8
+		driver: mysql
+		database: transport_company
+		host: localhost
+		user: root
+		pass: 
+
+#parameters:
+#
+#
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=transport_company'
+	user:
+	password:
+	options:
+		lazy: yes
