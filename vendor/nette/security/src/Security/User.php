@@ -84,6 +84,7 @@ class User extends Nette\Object
 		if (!$id instanceof IIdentity) {
 			$id = $this->getAuthenticator()->authenticate(func_get_args());
 		}
+		
 		$this->storage->setIdentity($id);
 		$this->storage->setAuthenticated(TRUE);
 		$this->onLoggedIn($this);

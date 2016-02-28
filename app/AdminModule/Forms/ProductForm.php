@@ -34,7 +34,7 @@ final class ProductForm extends Form
 			->setRequired();
 		$this->addText('size', 'Veľkosť')
 			->setRequired();
-		$this->addDate('date', 'Dátum doručenia')
+		$this->addText('date', 'Dátum doručenia')
 			->setRequired();
 		$this->addText('from', 'Doručenie z mesta')
 			->setRequired();		

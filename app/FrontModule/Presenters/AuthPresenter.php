@@ -76,7 +76,7 @@ class AuthPresenter extends BasePresenter
 		$values = $form->getValues();
 		
 		$values->password = sha1($values->password);
-
+		$values->role_id = 3;
 		$this->usersModel->insertUser($values);
 
 		$this->flashMessage('Registrácia bola úspešná!');

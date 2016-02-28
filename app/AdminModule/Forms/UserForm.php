@@ -6,10 +6,13 @@ use FRI\Application\UI\Form;
 
 final class UserForm extends Form
 {
-
-	public function __construct($logins)
-	{
+	private $roles;
+	
+	public function __construct($roles)
+	{		
 		parent::__construct();
+		
+		$this->roles = $roles;
 	}
 
 	/**
@@ -20,18 +23,20 @@ final class UserForm extends Form
 		parent::configure($presenter);
 
 		$this->addText('login', 'Login')
-			->setRequired('Prosím vyplňte toto pole');
-
-		$this->addPassword('password', 'Heslo')
 			->setRequired();
-		
+		$this->addPassword('password', 'Heslo')
+			->setRequired();		
+		$this->addPassword('password2', 'Potvrdenie hesla')
+			->setRequired('Prosím, vyplňte povinné pole %label.')
+			->addRule(self::EQUAL, '%label sa nezhoduje so zadaným heslom.', $this['password']);
+		$this->addSelect('role_id', 'Práva',  $this->roles())
+			->setPrompt('Vyberte prosím')
+			->setRequired();
 		$this->addText('name', 'Meno')
 			->setRequired();
-		
 		$this->addText('surname', 'Priezvisko')
 			->setRequired();
-		
-		$this->addText('ssn', 'Rodné číslo')
+		$this->addText('personal_id', 'Rodné číslo')
 			->setRequired();
 		$this->addText('email', 'Email')
 			->setRequired();
@@ -41,5 +46,16 @@ final class UserForm extends Form
 			->setRequired();
 
 		$this->addSubmit('submit', 'Pridať');
+	}
+	
+	public function roles()
+	{
+		$roles = array();
+		
+		foreach ($this->roles as $role)
+		{
+			$roles[$role->role_id] = $role->name;
+		}
+		return $roles;
 	}
 }

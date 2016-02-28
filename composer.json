@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "nette/bootstrap": "dev-master"
     },
     "require-dev": {
         "dg/dibi": "dev-master",

@@ -38,10 +38,6 @@ class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->addColumnText('car_id', 'Evidenčné číslo')
 			->setSortable();
 
-		$this->addColumnText('user_id', 'ID šoféra')
-			->setSortable()
-			->setFilterText();
-
 		$this->addColumnText('weight', 'Maximálna váha')
 			->setSortable()
 			->setFilterText();

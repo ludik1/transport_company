@@ -11,7 +11,7 @@ final class ProductsModel extends BaseModel
 		$this->primaryKey = 'product_id';
 	}
 	
-	public function getAllCars()
+	public function getAllProducts()
 	{
 		return $this->db->select('*')->from($this->table)->fetchAll();
 	}

@@ -35,24 +35,51 @@ class UserPresenter extends BasePresenter
 	 */
 	protected function createComponentUserForm()
 	{
-		$form = new UserForm();
+		$form = new UserForm($this->usersModel->getUserRoles());
+		
+		$form->onValidate[] =$this->registrationFormValidate;
 		$form->onSuccess[] = $this->userFormSubmitted;
+		
 		return $form;
 	}
 	
 	public function userFormSubmitted(UserForm $form)
 	{
-		echo 't';
+		$values = $form->getValues();
+		
+		$values->password = sha1($values->password);
+
+		$this->usersModel->insertUser($values);
+		
+		$this->flashMessage('Užívateľ bol úspešne vložený!');
+		$this->redirect(':Admin:User:default');
 	}
 
 	/**
 	* @return UserGrid
 	*/
-       protected function createComponentUsersGrid()
-       {
-	   $grid = new UsersGrid($this->usersModel);
+	protected function createComponentUsersGrid()
+    {
+		$grid = new UsersGrid($this->usersModel);
+		
+		return $grid;		
+	}
+	
+	/**
+	 * @param RegistrationForm
+	 */
+	public function registrationFormValidate(UserForm $form)
+	{
+		$values = $form->getValues();
 
-	   return $grid;
-       }
+		foreach ($this->usersModel->getUsersLogin() as $user)
+		{			
+			if($user->login == $values->login)
+			{
+				$form->addError('Tento login je uz použitý');
+			}
+		}
+		
+	}
 }
 

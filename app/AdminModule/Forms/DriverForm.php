@@ -4,15 +4,17 @@ namespace FrontModule\Forms;
 
 use FRI\Application\UI\Form;
 
-final class CarForm extends Form
+final class DriverForm extends Form
 {
 	private $drivers;
+	private $cars;
 	
-	public function __construct($drivers)
+	public function __construct($drivers, $cars)
 	{		
 		parent::__construct();
 		
 		$this->drivers = $drivers;
+		$this->cars = $cars;
 	}
 
 	/**
@@ -22,21 +24,13 @@ final class CarForm extends Form
 	{
 		parent::configure($presenter);
 
-//		$this->addSelect('user_id', 'Šofér', $this->drivers())
-//			->setPrompt('Vyberte prosím')
-//			->setRequired();
-		$this->addText('car_id', 'Evidenčné číslo auta')
-			->setRequired('Prosím vyplňte toto pole');
+		$this->addSelect('user_id', 'Šofér', $this->drivers())
+			->setPrompt('Vyberte prosím')
+			->setRequired();
+		$this->addSelect('car_id', 'Evidenčné číslo auta', $this->cars())
+			->setPrompt('Vyberte prosím')
+			->setRequired();
 
-		$this->addText('size', 'Veľkosť')
-			->setRequired();
-		
-		$this->addText('weight', 'Váha')
-			->setRequired();
-		
-		$this->addText('reserved_from', 'Rezervované od');
-		
-		$this->addText('reserved_to', 'Rezervované do');
 
 		$this->addSubmit('submit', 'Pridať');
 	}
@@ -50,5 +44,15 @@ final class CarForm extends Form
 			$drivers[$driver->user_id] = $driver->name.' '.$driver->surname;
 		}
 		return $drivers;
+	}
+	public function cars()
+	{
+		$cars = array();
+
+		foreach ($this->cars as $car)
+		{
+			$cars[$car->car_id] = $car->car_id;
+		}
+		return $cars;
 	}
 }

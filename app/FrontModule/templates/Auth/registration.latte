@@ -1,4 +1,6 @@
-{block #content}
-<h2>Registrácia</h2>
+<link rel="stylesheet" href="{$basePath}/css/frontend.css" />
+<div class="content_box">
 	{control registrationForm}
-{/block}
+	<a n:href=":Front:Auth:registration">Registrácia</a>
+</div>
+<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>

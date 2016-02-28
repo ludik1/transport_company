@@ -1,3 +1,17 @@
-{* Latte template *}
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$basePath}/css/menu.css" type="text/css">
+<link rel="stylesheet" href="{$basePath}/css/backend.css" />
 
-{control userForm}
+<div id='cssmenu'>
+<ul>
+   <li><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
+   <li class='active has-sub' n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
+   <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
+   <li><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
+   <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
+</ul>
+</div>
+<div class="content_box">
+	{control userForm}
+</div>

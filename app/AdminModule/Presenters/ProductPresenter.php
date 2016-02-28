@@ -42,13 +42,19 @@ class ProductPresenter extends BasePresenter
 	protected function createComponentProductForm()
 	{
 		$form = new ProductForm();
-		$form->onSuccess = $this->productFormSubmitted;
+		$form->onSuccess[] = $this->productFormSubmitted;
 		return $form;
 	}
 	
 	public function productFormSubmitted(ProductForm $form)
 	{
+		$values = $form->getValues();
+		$values->user_id = $this->user->getId();
 		
+		$this->productsModel->insert($values);
+		
+		$this->flashMessage('Produkt bol úspešne vložený!');
+		$this->redirect(':Admin:Product:default');
 	}
 }
 

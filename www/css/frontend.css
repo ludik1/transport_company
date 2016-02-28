@@ -1,0 +1,19 @@
+.content_box {
+    background: white url(../images/pasik_sedy_150.png) repeat-x scroll center bottom;
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f2f2f2));
+    background: -moz-linear-gradient(top, #fff, #f2f2f2);
+    border: 1px solid #e3e3e3;
+    border-radius: 7px;
+    position: relative;
+    padding: 15px 5px 5px 30px;
+    overflow: hidden;
+    clear: both;
+}
+
+.content_box input, .content_box textarea, .content_box select {
+    width: 200px;
+}
+.controls{
+	padding-bottom: 5px;
+}
+
