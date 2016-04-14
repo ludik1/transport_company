@@ -1,6 +1,29 @@
+{block head}
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="{$basePath}/css/menuFrontend.css" />
 <link rel="stylesheet" href="{$basePath}/css/frontend.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+{/block}
+<div id="banner">
+	<h1 n:block=title>L-Trans</h1>
+</div>
+<div id='cssmenu'>
+<ul>
+   <li><a n:href=":Front:Homepage:default"><span>O spoločnosti</span></a></li>
+   <li><a n:href=":Front:Homepage:products">Služby</a></li>
+   <li><a n:href=":Front:Homepage:contact">Kontakt</a></li>   
+   <li n:if="$user->isLoggedIn()">	<a n:href=":Admin:Homepage:" style="text-align: right;">Administrácia</a></li>
+   <li n:if="!$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:login" style="text-align: right;">Prihlásenie</a></li>
+   <li n:if="$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
+</ul>
+</div>
+{block content}
 <div class="content_box">
 	{control registrationForm}
-	<a n:href=":Front:Auth:registration">Registrácia</a>
+	<a n:href=":Front:Auth:login">Prihlásenie</a>
 </div>
+	{/block}
 <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+<div class="footer">
+	Všetky práva vyhradené &copy; 2016
+</div>

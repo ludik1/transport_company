@@ -36,7 +36,12 @@ class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
 
 		$this->addColumnText('car_id', 'Evidenčné číslo')
-			->setSortable();
+			->setSortable()
+			->setFilterText();
+		
+		$this->addColumnText('fullname', 'Meno šoféra')
+			->setSortable()
+			->setFilterText();
 
 		$this->addColumnText('weight', 'Maximálna váha')
 			->setSortable()
@@ -45,5 +50,17 @@ class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->addColumnText('size', 'Maximálna veľkosť')
 			->setSortable()
 			->setFilterText();
+		
+		$this->addActionHref('edit', '')
+            ->setIcon('pencil')
+            ->getElementPrototype()->setTitle('Upraviť');
+
+        $this->addActionHref('delete', '', 'delete!')
+            ->setIcon('trash icon-white')
+            ->setConfirm('Naozaj chcete odstrániť záznam?')
+            ->setElementPrototype(
+                Html::el('a')
+                    ->addClass('btn btn-danger btn-mini')
+                    ->setTitle('Zmazať'));
 	}
 }

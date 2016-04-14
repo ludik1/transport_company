@@ -36,6 +36,15 @@ class CarPresenter extends BasePresenter
 		$this->template->cars = $this->carsModel->getAllCars();
 	}
 	
+	public function actionAdd()
+	{
+		$form = $this['carForm'];
+		$form->addSubmit('ok', 'Pridať');
+		$form->onSuccess[] = $this->carFormSubmitted;
+
+		$this->template->title = 'Pridanie vozidla';
+	}
+	
 	/**
 	* @return CarGrid
 	*/
@@ -49,7 +58,6 @@ class CarPresenter extends BasePresenter
 	protected function createComponentCarForm()
 	{
 		$form = new CarForm($this->usersModel->getDrivers());
-		$form->onSuccess[] = $this->carFormSubmitted;
 		
 		return $form;
 	}
@@ -66,7 +74,7 @@ class CarPresenter extends BasePresenter
 	
 	protected function createComponentDriverForm()
 	{
-		$form = new DriverForm($this->usersModel->getDrivers(), $this->carsModel->getAllCars());
+		$form = new DriverForm($this->usersModel->getDrivers(), $this->carsModel->getFreeCars());
 		$form->onSuccess[] = $this->driverFormSubmitted;
 		
 		return $form;
@@ -81,5 +89,45 @@ class CarPresenter extends BasePresenter
 		$this->flashMessage('Vozidlo bolo úspešne pridané!');
 		$this->redirect(':Admin:Car:default');
 	}
+	
+	
+	/**
+     * @param int $car_id
+     */
+    public function actionEdit($car_id)
+    {
+        $car = $this->carsModel->find($car_id);
+		if (!$car)
+		{
+			$this->error();
+		}
+		$this->template->car = $car_id;
+		$form = $this['carForm'];
+		$form->setDefaults($car);
+		$form->addSubmit('ok', 'Upraviť');
+		$form->onSuccess[] = $this->carFormEdit;
+    }
+	
+	public function carFormEdit(CarForm $form)
+    {
+        $values = $form->getValues();
+		unset($values->car_id);
+		
+        $this->carsModel->updateCar($this->template->car, $values);
+		
+        $this->flashMessage('Vozidlo bolo úspešne editované!');
+        $this->redirect('Car:');
+    }
+	
+	/**
+     * @param int $car_id
+     */
+    public function handleDelete($car_id)
+    {
+        $this->carModel->delete($car_id);
+		
+		$this->flashMessage('Vozidlo bolo úspešne vymazané!');
+        $this->redirect('Car:');
+    }
 }
 

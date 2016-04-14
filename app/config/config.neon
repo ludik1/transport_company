@@ -18,9 +18,7 @@ common:
 
 
 	session:
-		expiration: 14 days
-
-		
+		expiration: 0 days
 
 	services:
 		router: App\Router\RouterFactory::createRouter(%router.secured%)		
@@ -29,11 +27,25 @@ common:
 		usersModel: Models\UsersModel
 		userRolesModel: Models\UserRolesModel
 		productsModel: Models\ProductsModel
+		ordersModel: Models\OrdersModel
 
 		authenticator:
 			class: FRI\User\Authenticator
 
 	extensions:
 		dibi: Dibi\Bridges\Nette\DibiExtension22
+	nette:
+		forms:
+			messages:
+				EMAIL: 'Zadaná emailová adresa má nesprávny tvar.'
+				FILLED: 'Vyplňte povinné pole "%label".'
+				FLOAT: '"%label" zadajte prostredníctvom čísla. Desatinnú časť oddeľte bodkou(".") alebo čiarkou(",").'
+				INTEGER: '"%label" zadajte prostredníctvom celého čísla.'
+				LENGTH: 'Zadajte výraz s počtom znakov: %d.'
+				MAX_LENGTH: 'Zadajte výraz s maximálnym počtom znakov: %d.'
+				MIN_LENGTH: 'Zadajte výraz s minimálnym počtom znakov: %d.'
+				PATTERN: 'Zadaný výraz pre "%label" má nesprávny tvar.'
+				RANGE: '"%label" zadajte prostredníctvom čísla v rozsahu od %d do %d.'
+				URL: 'Zadaná URL adresa má nesprávny tvar.'	
 
 development < common:

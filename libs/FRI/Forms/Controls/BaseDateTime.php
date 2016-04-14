@@ -2,7 +2,7 @@
 
 namespace FRI\Forms\Controls;
 
-use \Nette\DateTime;
+use Nette\Utils\DateTime;
 
 /**
  *

@@ -34,9 +34,6 @@ class UsersGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->setPrimaryKey($this->usersModel->getPrimaryKeyName());
 		$this->setRememberState(TRUE);
 		$this->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
-
-		$this->addColumnText('user_id', 'Id užívateľa')
-			->setSortable();
 		
 		$this->addColumnText('name', 'Meno')
 			->setSortable()
@@ -50,7 +47,7 @@ class UsersGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('email', 'Email')
+		$this->addColumnEmail('email', 'Email')
 			->setSortable()
 			->setFilterText();
 		
@@ -58,12 +55,28 @@ class UsersGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('employed_from', 'Zamestnaný od')
+		$this->addColumnDate('employed_from', 'Zamestnaný od')
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('employed_to', 'Zamestnaný do')
+		$this->addColumnDate('employed_to', 'Zamestnaný do')
 			->setSortable()
 			->setFilterText();
+		
+		$this->addColumnText('role_name', 'Rola')
+			->setSortable()
+			->setFilterText();
+		
+		$this->addActionHref('edit', '')
+            ->setIcon('pencil')
+            ->getElementPrototype()->setTitle('Upraviť');
+
+        $this->addActionHref('delete', '', 'delete!')
+            ->setIcon('trash icon-white')
+            ->setConfirm('Naozaj chcete odstrániť záznam?')
+            ->setElementPrototype(
+                Html::el('a')
+                    ->addClass('btn btn-danger btn-mini')
+                    ->setTitle('Zmazať'));
 	}
 }

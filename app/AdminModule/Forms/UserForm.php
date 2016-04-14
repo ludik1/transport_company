@@ -32,6 +32,8 @@ final class UserForm extends Form
 		$this->addSelect('role_id', 'Práva',  $this->roles())
 			->setPrompt('Vyberte prosím')
 			->setRequired();
+		$this->addDate('employed_from', 'Zamestnaný od');
+		$this->addDate('employed_to', 'Zamestnaný do');
 		$this->addText('name', 'Meno')
 			->setRequired();
 		$this->addText('surname', 'Priezvisko')
@@ -42,10 +44,8 @@ final class UserForm extends Form
 			->setRequired();
 		$this->addText('phone', 'Telefónne číslo')
 			->setRequired();
-		$this->addText('address', 'Adresa')
+		$this->addTextArea('address', 'Adresa')
 			->setRequired();
-
-		$this->addSubmit('submit', 'Pridať');
 	}
 	
 	public function roles()

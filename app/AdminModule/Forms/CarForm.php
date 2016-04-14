@@ -22,9 +22,9 @@ final class CarForm extends Form
 	{
 		parent::configure($presenter);
 
-//		$this->addSelect('user_id', 'Šofér', $this->drivers())
-//			->setPrompt('Vyberte prosím')
-//			->setRequired();
+		$this->addSelect('user_id', 'Šofér', $this->drivers())
+			->setPrompt('Vyberte prosím')
+			->setRequired();
 		$this->addText('car_id', 'Evidenčné číslo auta')
 			->setRequired('Prosím vyplňte toto pole');
 
@@ -34,11 +34,9 @@ final class CarForm extends Form
 		$this->addText('weight', 'Váha')
 			->setRequired();
 		
-		$this->addText('reserved_from', 'Rezervované od');
+		$this->addDate('reserved_from', 'Rezervované od');
 		
-		$this->addText('reserved_to', 'Rezervované do');
-
-		$this->addSubmit('submit', 'Pridať');
+		$this->addDate('reserved_to', 'Rezervované do');
 	}
 	
 	public function drivers()

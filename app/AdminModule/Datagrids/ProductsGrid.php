@@ -11,16 +11,17 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 	 * @var ProductsModel
 	 */
 	private $productsModel;
-
+	private $user;
 
 	/**
 	 * @param ProductsModel $productsModel
 	 */
-	public function __construct(ProductsModel $productsModel)
+	public function __construct(ProductsModel $productsModel, $user)
 	{
 		parent::__construct();
 
 		$this->productsModel = $productsModel;
+		$this->user = $user;
 	}
 
 	/**
@@ -29,8 +30,27 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 	protected function configure(\Nette\Application\UI\Presenter $presenter)
 	{
 		parent::configure($presenter);
-
-		$this->setModel($this->productsModel->getAllProducts());
+		if(isset($this->user)){
+			$products = $this->productsModel->getAllUserProducts($this->user);
+			$temp = array();
+			foreach ($products as $product)
+			{
+				$product->from = $this->productsModel->getCityName($product->from)->name;
+				$product->to = $this->productsModel->getCityName($product->to)->name;
+				$temp[] = $product;
+			}
+			$this->setModel($temp);
+		} else {
+			$products = $this->productsModel->getAllProducts();
+			foreach ($products as $product)
+			{
+				$product->from = $this->productsModel->getCityName($product->from)->name;
+				$product->to = $this->productsModel->getCityName($product->to)->name;
+				$temp[] = $product;
+			}
+			$this->setModel($temp);
+		}
+		
 		$this->setPrimaryKey($this->productsModel->getPrimaryKeyName());
 		$this->setRememberState(TRUE);
 		$this->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
@@ -39,7 +59,7 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 
-		$this->addColumnText('count', 'Počet')
+		$this->addColumnText('amount', 'Počet')
 			->setSortable()
 			->setFilterText();
 
@@ -59,7 +79,7 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('date', 'Dátum prepravy')
+		$this->addColumnDate('date', 'Dátum prepravy')
 			->setSortable()
 			->setFilterText();
 		
@@ -67,8 +87,24 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
+		$this->addColumnText('price', 'Cena za kus')
+			->setSortable()
+			->setFilterText();
+		
 		$this->addColumnText('info', 'Info')
 			->setSortable()
 			->setFilterText();
+		
+		$this->addActionHref('edit', '')
+            ->setIcon('pencil')
+            ->getElementPrototype()->setTitle('Upraviť');
+
+        $this->addActionHref('delete', '', 'delete!')
+            ->setIcon('trash icon-white')
+            ->setConfirm('Naozaj chcete odstrániť záznam?')
+            ->setElementPrototype(
+                Html::el('a')
+                    ->addClass('btn btn-danger btn-mini')
+                    ->setTitle('Zmazať'));
 	}
 }

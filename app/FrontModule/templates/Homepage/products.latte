@@ -1,0 +1,109 @@
+{block head}
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="{$basePath}/js/grido.js"></script>
+<link rel="stylesheet" href="{$basePath}/css/gridoBackendRepairments.css" />
+<link rel="stylesheet" href="{$basePath}/css/grido.css" />
+<link rel="stylesheet" href="{$basePath}/css/backend.css" />
+<link rel="stylesheet" href="{$basePath}/css/menuFrontend.css" />
+<link rel="stylesheet" href="{$basePath}/css/frontend.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+{/block}
+
+
+
+{block content}
+<div id="banner">
+	<h1 n:block=title>L-Trans</h1>
+</div>
+<div id='cssmenu'>
+<ul>
+   <li><a n:href=":Front:Homepage:default"><span>O spoločnosti</span></a></li>
+   <li><a n:href=":Front:Homepage:products">Služby</a></li>
+   <li><a n:href=":Front:Homepage:contact">Kontakt</a></li>   
+   <li n:if="$user->isLoggedIn()">	<a n:href=":Admin:Homepage:" style="text-align: right;">Administrácia</a></li>
+   <li n:if="!$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:login" style="text-align: right;">Prihlásenie</a></li>
+   <li n:if="$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
+</ul>
+</div>
+<div id="content">
+	<h2>Ponuka služieb spoločnosti L-Trans:</h2>
+
+		Spoločnosť L-Trans s.r.o. ponúka transport produktou automobilovou dopravou po celom slovensku. Zameriavame sa na veľké ako aj malé firmy. Garantujeme rýchly a profesionálny prístup k splneniu vašich požiadaviek. Ponúkame prepravu tovaru vo veľkostiach maximálne: výška 3 metre, šírka 2.5 metra a dĺžka 13.5 metra. 
+
+		<h2>Cenník</h2>
+		Cena tovaru závisí od veľkosti a taktiež priority odvozu Vášho balíka. Za každý meter kubický je cena 5€. Priorita zvyšuje cenu prepravy o:
+	
+	<div class="tableFrontend" >
+                <table >
+                    <tr>
+                        <td>
+                            PRIORITA
+                        </td>
+                        <td >
+                            PERCENTÁ
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Priorita 1
+                        </td>
+                        <td>
+                            10%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Priorita 2
+                        </td>
+                        <td>
+                            7%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Priorita 3
+                        </td>
+                        <td>
+                            5%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Priorita 4
+                        </td>
+                        <td>
+                            3%
+                        </td>
+                    </tr>
+					<tr>
+                        <td >
+                            Priorita 5
+                        </td>
+                        <td>
+                            0%
+                        </td>
+                    </tr>
+                </table>		
+	</div>
+	Každý produkt, ktorý má váhu väčšiu ako 50 kilogramov má prirážku v hodnote 2€.
+</div>
+{/block}
+<div class="footer">
+	Všetky práva vyhradené &copy; 2016
+</div>
+
+<script src="https://files.nette.org/sandbox/jush.js"></script>
+<script>
+	jush.create_links = false;
+	jush.highlight_tag('code');
+	$('code.jush').each(function(){ $(this).html($(this).html().replace(/\x7B[/$\w].*?\}/g, '<span class="jush-latte">$&</span>')) });
+
+	$('a[href^=#]').click(function(){
+		$('html,body').animate({ scrollTop: $($(this).attr('href')).show().offset().top - 5 }, 'fast');
+		return false;
+	});
+</script>
+
+
+
+

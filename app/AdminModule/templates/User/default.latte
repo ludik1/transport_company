@@ -3,19 +3,23 @@
 <link rel="stylesheet" href="{$basePath}/css/gridoBackendRepairments.css" />
 <link rel="stylesheet" href="{$basePath}/css/grido.css" />
 <link rel="stylesheet" href="{$basePath}/css/backend.css" />
-<link rel="stylesheet" href="{$basePath}/css/menu.css" />
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
+<link rel="stylesheet" href="{$basePath}/css/menu.css" type="text/css">
+<script src="{$basePath}/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css" />
+<div style="margin: 8px;">
 <div id='cssmenu'>
 <ul>
    <li><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
    <li class='active has-sub' n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
    <li><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li n:if="$user->isInRole(1)"><a n:href=":Admin:Optimalization:default">Správa dopravy</a></li>
    <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
    <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
 </ul>
 </div>
+<div class="body">
 <div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
 <a n:href=":Admin:User:add" class="button">Pridať užívateľa</a>
 
@@ -24,3 +28,5 @@
 	{control usersGrid}
 	</div>
 {/block}
+</div>
+</div>

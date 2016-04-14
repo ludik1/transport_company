@@ -21,7 +21,7 @@ final class Authenticator implements \Nette\Security\IAuthenticator
 
 	public function authenticate(array $credentials)
 	{
-        $user = $this->usersModel->findOneBy(['login' => $credentials[self::USERNAME]]);
+		$user = $this->usersModel->findOneBy(['login' => $credentials[self::USERNAME], 'password' => $credentials[self::PASSWORD]]);
 
 		if (!$user)
 		{

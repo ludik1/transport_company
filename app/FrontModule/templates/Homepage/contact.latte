@@ -1,0 +1,91 @@
+{block head}
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="{$basePath}/js/grido.js"></script>
+<script src="{$basePath}/js/contact.js"></script>
+<link rel="stylesheet" href="{$basePath}/css/gridoBackendRepairments.css" />
+<link rel="stylesheet" href="{$basePath}/css/grido.css" />
+<link rel="stylesheet" href="{$basePath}/css/backend.css" />
+<link rel="stylesheet" href="{$basePath}/css/menuFrontend.css" />
+<link rel="stylesheet" href="{$basePath}/css/frontend.css" />
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+{/block}
+{block content}
+<div id="banner">
+	<h1 n:block=title>L-Trans</h1>
+</div>
+<div id='cssmenu'>
+<ul>
+   <li><a n:href=":Front:Homepage:"><span>O spoločnosti</span></a></li>
+   <li><a n:href=":Front:Homepage:products">Služby</a></li>
+   <li><a n:href=":Front:Homepage:contact">Kontakt</a></li>   
+   <li n:if="$user->isLoggedIn()">	<a n:href=":Admin:Homepage:" style="text-align: right;">Administrácia</a></li>
+   <li n:if="!$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:login" style="text-align: right;">Prihlásenie</a></li>
+   <li n:if="$user->isLoggedIn()" class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
+</ul>
+</div>
+<div id="content" >
+	<script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script>
+	<div style='overflow:hidden;height:400px;width:100%;'>
+		<div id='gmap_canvas' style='height:400px;width:100%;'></div>
+		<style>#gmap_canvas img{
+				max-width:none!important;background:none!important
+			}</style>
+	</div>
+		<a href='https://add-map.com/'>google map embed</a>
+<script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=809e49c4ec9ee9148a5652a3453210b39ec41518'></script>
+<script type='text/javascript'>
+function init_map(){
+	var myOptions = {
+		zoom:15,
+		center:new google.maps.LatLng(49.2092374,18.75793610000005),
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	
+	map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);
+	marker = new google.maps.Marker({
+		map: map,position: new google.maps.LatLng(49.2092374,18.75793610000005)
+	});
+	
+	infowindow = new google.maps.InfoWindow({
+		content:'<strong>L-Trans</strong><br>Vysokoškolákov 20<br> Žilina<br>'
+	});
+	
+	google.maps.event.addListener(marker, 'click', function(){
+		infowindow.open(map,marker);
+	});
+	infowindow.open(map,marker);
+}
+
+google.maps.event.addDomListener(window, 'load', init_map);
+</script>
+<div class='nadpis'>Kontaktné údaje:</div><br>
+<div class="fleft">
+	<b>Sídlo:</b> L-Trans s.r.o., Vysokoškolákov 20, 010 01 Žilina<br>
+	<b>IČO:</b> 98 765 432<br>
+	<b>IČ DPH:</b> SK1234567890<br>
+	<b>Bankové spojenie:</b> 10000000/5200<br><br>
+
+	<b>IBAN:</b> SK70 5200 0000 0000 1000 0000<br><br>
+	<b>BIC/SWIFT:</b> OTPV SK BX<br><br>
+</div>
+<div class="fright">	
+	<b>Email:</b> juraj.ludik@gmail.com<br>
+	<b>Telefón:</b> 0911 298 694<br><br>
+</div>
+</div>
+{/block}
+<div class="footer">
+	Všetky práva vyhradené &copy; 2016
+</div>
+
+
+
+
+
+
+
+
+
+
+

@@ -4,18 +4,53 @@
 <link rel="stylesheet" href="{$basePath}/css/grido.css" />
 <link rel="stylesheet" href="{$basePath}/css/backend.css" />
 <link rel="stylesheet" href="{$basePath}/css/menu.css" type="text/css">
-<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
-
+<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css" />
+<script src="{$basePath}/js/netteForms.js" type="text/javascript"></script>
+<div style="margin: 8px;">
 <div id='cssmenu'>
 <ul>
    <li><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
    <li class='active has-sub'><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li n:if="$user->isInRole(1)"><a n:href=":Admin:Optimalization:default">Správa dopravy</a></li>
    <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
    <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
 </ul>
 </div>
+<div class="body">
 <div class="content_box">
 	{control productForm}
+</div>
+</div>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script>
+$.datepicker.regional['sk'] = {
+				closeText: 'Zavrieť',
+                prevText: '<Predchádzajúci',
+                nextText: 'Nasledujúci>',
+                currentText: 'Dnes',
+                monthNames: ['Január','Február','Marec','Apríl','Máj','Jún',
+                'Júl','August','September','Október','November','December'],
+                monthNamesShort: ['Jan','Feb','Mar','Apr','Máj','Jún',
+                'Júl','Aug','Sep','Okt','Nov','Dec'],
+                dayNames: ['Nedel\'a','Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota'],
+                dayNamesShort: ['Ned','Pon','Uto','Str','Štv','Pia','Sob'],
+                dayNamesMin: ['Ne','Po','Ut','St','Št','Pia','So'],
+                weekHeader: 'Ty',
+                dateFormat: 'dd.mm.yy',
+                firstDay: 0,             
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''};
+ 
+$.datepicker.setDefaults($.datepicker.regional['sk']);
+  $(function() {
+    $( "#frm-productForm-date" ).datepicker();
+	$( "#frm-productForm-date" ).datepicker( "option", "dateFormat", "dd.mm.yy" );
+  });
+  </script>
 </div>

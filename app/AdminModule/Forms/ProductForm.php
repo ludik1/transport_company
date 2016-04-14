@@ -14,9 +14,13 @@ final class ProductForm extends Form
 	    5 => '5',
 	);
 
-	public function __construct()
-	{
+	private $cities;
+	
+	public function __construct($cities)
+	{		
 		parent::__construct();
+		
+		$this->cities = $cities;
 	}
 
 	/**
@@ -28,23 +32,27 @@ final class ProductForm extends Form
 		
 		$this->addText('name', 'Názov produktu')
 			->setRequired();
-		$this->addText('count', 'Počet')
-			->setRequired();
-		$this->addText('weight', 'Váha')
-			->setRequired();
-		$this->addText('size', 'Veľkosť')
-			->setRequired();
-		$this->addText('date', 'Dátum doručenia')
-			->setRequired();
-		$this->addText('from', 'Doručenie z mesta')
+		$this->addText('amount', 'Počet')
 			->setRequired();		
-		$this->addText('to', 'Doručenie do mesta')
+		$this->addText('size', 'Veľkosť (m³)')
+			->addRule(self::INTEGER, 'Veľkosť musí byť číslo')
+			->addRule(self::RANGE, 'Veľkosť musí byť od 1 do 100', array(1, 100))
+			->setRequired();
+		$this->addText('weight', 'Váha (kg)')
+			->addRule(self::INTEGER, 'Váha musí byť číslo')
+			->addRule(self::RANGE, 'Váha musí byť od 1 do 1000', array(1, 1000))
+			->setRequired();
+		$this->addDate('date', 'Dátum doručenia')
+			->setRequired();	
+		$this->addSelect('from', 'Doručenie z mesta')
+			->setItems($this->cities)
+			->setRequired();	
+		$this->addSelect('to', 'Doručenie do mesta')
+			->setItems($this->cities)
 			->setRequired();
 		$this->addSelect('priority', 'Priorita', self::PRIORITY)
 			->setPrompt('Vyberte prosím')
 			->setRequired();
-		$this->addTextArea('info', 'Informácie o produkte');
-
-		$this->addSubmit('submit', 'Pridať');
+		$this->addTextArea('info', 'Informácie o produkte');		
 	}
 }

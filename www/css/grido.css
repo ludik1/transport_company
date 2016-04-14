@@ -131,6 +131,7 @@
 .grido th.actions {
     width: 15%;
     text-align: center;
+	color: #08c;
 }
 
 .grido th.buttons,
@@ -170,7 +171,6 @@
 .grido table td, .grido table th {border-top: 0!important}
 .grido thead th {
     border-bottom: 1px solid #CACACA!important;
-    padding: 3px 6px!important;
 }
 .grido tbody tr td, .grido tfoot tr td {
     vertical-align: middle;

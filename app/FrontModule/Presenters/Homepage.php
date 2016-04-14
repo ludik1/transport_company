@@ -8,5 +8,14 @@ class HomepagePresenter extends BasePresenter
 	{
 		$this->template->anyVariable = 'any value';
 	}
+	
+	public function actionContact()
+	{
+		
+	}
+	public function actionProducts()
+	{
+		
+	}
 }
 
