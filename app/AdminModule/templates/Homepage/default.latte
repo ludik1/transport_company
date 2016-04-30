@@ -7,7 +7,7 @@
    <li class='active has-sub'><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
-   <li><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li><a n:href=":Admin:Product:default">Objednávky</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Optimalization:default">Správa dopravy</a></li>
    <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
    <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
@@ -15,7 +15,7 @@
 </div>
 <div class="body">
 {block #content}
-<h2>Administrácia</h2>
+<h2>Vitajte v administračnej časti informačného systému</h2>
 
 {/block}
 </div>

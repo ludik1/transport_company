@@ -2,13 +2,15 @@
 
 namespace App\AdminModule\Presenters;
 
-use Models\CarsModel,
+use Nette\Utils\DateTime,
+	Models\CarsModel,
 	Models\ProductsModel,
 	Models\OrdersModel,
 	FrontModule\Forms\OptimalizationForm,
 	FrontModule\Forms\DistributionPlanForm,
 	AdminModule\Datagrids\OrdersGrid,
-	AdminModule\Datagrids\DistributionPlanGrid;
+	AdminModule\Datagrids\DistributionPlanGrid,
+	AdminModule\Datagrids\DriverGrid;
 
 class OptimalizationPresenter extends BasePresenter
 {
@@ -58,6 +60,16 @@ class OptimalizationPresenter extends BasePresenter
 	}
 	
 	/**
+	* @return DriverGrid
+	*/
+	protected function createComponentDriverGrid()
+    {
+		$grid = new DriverGrid($this->ordersModel, $this->productsModel);
+		
+		return $grid;		
+	}
+	
+	/**
 	* @return DistributionPlanGrid
 	*/
 	protected function createComponentDistributionPlanGrid($type)
@@ -82,133 +94,158 @@ class OptimalizationPresenter extends BasePresenter
 	
 	public function distributionPlanSubmitted(DistributionPlanForm $form)
 	{
-		$this->ordersModel->insertOrders($_SESSION['data']);
-		$_SESSION['data'] = array();
-		$this['distributionPlanGrid']->setModel($_SESSION['data']);
-		$this['distributionPlanGrid']->redrawControl();
-		$this->flashMessage('Plán rozvozu bol úspešne vytvorený', 'success');
+		ini_set('max_execution_time',500);
+		if($this->ordersModel->distributionPlanIsCreated())
+		{
+			$this->flashMessage('Plán rozvozu bol už na dnes vytorený', 'wrong');
+			$this->redirect('Optimalization:');
+		}
+		else
+		{	
+			if(empty($_SESSION['data']))
+			{
+				$this->flashMessage('Plán rozvozu sa nepodarilo vytvoriť', 'wrong');
+			}
+			else
+			{
+				$products_ids = array();
+				foreach ($_SESSION['data'] as $temp)
+				{
+					$add = true;
+					foreach ($products_ids as $temp1)
+					{
+						if($temp1 == $temp['product_id'])
+						{
+							$add = false;
+						}
+					}
+					if($add) $products_ids[] = $temp['product_id'];
+				}
+
+				foreach ($products_ids as $temp)
+				{
+					$data = $this->productsModel->getProduct($temp);
+					$this->productsModel->update($data->product_id, array('status' => 1));
+					mail($data->email, 'Objednavka cislo'.$data->product_id , 'Vaša objednávka s číslom '.$data->product_id.' bude dnes doručená.', 'From: ltranstransportcompany@gmail.com');
+				}
+				$this->ordersModel->insertOrders($_SESSION['data']);
+				$_SESSION['data'] = array();
+				$this['distributionPlanGrid']->setModel($_SESSION['data']);
+				$this['distributionPlanGrid']->redrawControl();
+				$this->flashMessage('Plán rozvozu bol úspešne vytvorený', 'success');
+				$this->redirect('Optimalization:');
+			}
+		}		
 	}
 	public function optimalizationFormSubmitted(OptimalizationForm $form)
 	{
-		$values = $form->getValues();
-		$date = date("Y-m-d").' 00:00:00';
-		$cars = $this->carsModel->getCarsForTransport($date);
-		foreach ($cars as $car)
+		if($this->ordersModel->distributionPlanIsCreated())
 		{
-			$car['area'] = 0;
-			$car['products'] = array();
+			$this->flashMessage('Plán rozvozu bol už na dnes vytorený', 'wrong');
+			$this->redirect('Optimalization:');
 		}
-		$this->cars = json_decode(json_encode($cars), true);
+		else
+		{		
+			$values = $form->getValues();
+			$date = new \Nette\Utils\DateTime();
+			$cars = $this->carsModel->getCarsForTransport($date);
+			$date = $date->format('Y.m.d');
+			foreach ($cars as $car)
+			{
+				$car['area'] = 0;
+				$car['products'] = array();
+			}
+			$this->cars = json_decode(json_encode($cars), true);
 
-		$products = $this->productsModel->getProductForTransport($date, $values->type, $values->sort);
-		foreach ($products as $product)
-		{
-			$product['area'] = $this->productsModel->getArea($product);
-			$products_with_area[] = $product;
+			$products = $this->productsModel->getProductForTransport($date, $values->type, $values->sort);
+
+			$products_with_area = array();
+			foreach ($products as $product)
+			{
+				$product['area'] = $this->productsModel->getArea($product);
+				$products_with_area[] = $product;
+			}
+			// najprv budem vyberat podla krajov cize 1-8...
+			// podla toho na com chcem mat vacsiu prioritu, podla toho vytvaram values (ak chcem usporiadat len podla priority - nastavim value = priority)
+			$this->optimalizeAlgorithm($products_with_area, $values->split);
 		}
-		// najprv budem vyberat podla krajov cize 1-8...
-		// podla toho na com chcem mat vacsiu prioritu, podla toho vytvaram values (ak chcem usporiadat len podla priority - nastavim value = priority)
-		$this->optimalizeAlgorithm($products_with_area, $values->split);		
-
-		
-//		foreach ($this->cars as $temp)
-//		{
-//			dump($temp);
-//		}
-//		die();
-//		foreach($temp as $x => $x_value) {
-//			echo "Key=" . $x . ", Value=" . $x_value;
-//			echo "<br>";
-//	   }die();
-//		dump($temp);
-//		$add = TRUE;
-//		$i = 0;
-//		dump($cars);
-//		dump($cars[$i]);
-//		die();
-//		
-//		foreach ($products as $product)
-//		{
-//			while($add)
-//			{
-//				
-//			}
-//		}
-//		dump($products);
-//		dump($cars);die();
-//		$this->flashMessage('Optimalizácia prebehla úspešne!');
-//		dump($grid);die();
 	}
 
 	private function optimalizeAlgorithm($products, $split)
-	{
-		if($split == "true")
+	{		
+		foreach ($products as $product)
 		{
-			foreach ($products as $product)
+			for($i = 0; $i< count($this->cars); $i++)
 			{
-				for($i = 0; $i< count($this->cars); $i++)
+				if($split == "true")
 				{
-					if(($this->cars[$i]['area']== 0 || $this->cars[$i]['area']==$product['area']) && $product['amount']>0 && $this->cars[$i]['size'] >= $product['size'])
+					if(($this->cars[$i]['area']== 0 || $this->cars[$i]['area']==$product['area']) 
+							&& $product['amount']>0 && $this->cars[$i]['size'] >= $product['size'] && $this->cars[$i]['weight'] >= $product['weight'])
 					{
 						$can_have = floor($this->cars[$i]['size']/$product['size']);
-
+						if(floor($this->cars[$i]['weight']/$product['weight']) < $can_have) $can_have = floor($this->cars[$i]['weight']/$product['weight']);
+						
 						if($can_have > $product['amount'])
 						{
 							$this->cars[$i]['size'] -= $product['size']*$product['amount'];
+							$this->cars[$i]['weight'] -= $product['weight']*$product['amount'];
 							$inserted_count = $product['amount'];
 						}
 						else
 						{
 							$this->cars[$i]['size'] -= $can_have*$product['size'];
+							$this->cars[$i]['weight'] -= $can_have*$product['weight'];
 							$inserted_count = $can_have;
 						}
-						$product['amount'] -= $inserted_count;
-						$this->cars[$i]['area'] = $product['area'];
+						$product['amount'] -= $inserted_count;						
 						$this->cars[$i]['products'][] = array (
 								'product_id' => $product['product_id'],
 								'product_amount' => $inserted_count,
 								'product_name' => $product['name'],
 									);
-					}
-				}
-			}
-		}
-		else
-		{
-			foreach ($products as $product)
-			{
-				for($i = 0; $i< count($this->cars); $i++)
-				{
-					if(($this->cars[$i]['area']== 0 || $this->cars[$i]['area']==$product['area']) && $product['amount']>0 && $this->cars[$i]['size'] > 0)
-					{
-						
-						if($this->cars[$i]['size'] >= $product['size']*$product['amount'] || $product['amount']*$product['size'] > 100)
+						if($this->cars[$i]['area'] == 0)
 						{
-							$can_have = floor($this->cars[$i]['size']/$product['size']);
-							
-							if($can_have > $product['amount'])
-							{
-								$this->cars[$i]['size'] -= $product['size']*$product['amount'];
-								$inserted_count = $product['amount'];
-							}
-							else
-							{
-								$this->cars[$i]['size'] -= $can_have*$product['size'];
-								$inserted_count = $can_have;
-							}
-
-							$product['amount'] -= $inserted_count;
 							$this->cars[$i]['area'] = $product['area'];
-							$this->cars[$i]['products'][] = array (
-									'product_id' => $product['product_id'],
-									'product_amount' => $inserted_count,
-									'product_name' => $product['name'],
-										);
-						}
+						}	
 					}
 				}
+				else
+				{
+					if((($this->cars[$i]['area']== 0 || $this->cars[$i]['area']==$product['area']) && $product['amount']>0) && $this->cars[$i]['weight'] >= $product['weight']
+							&&($this->cars[$i]['size'] >= $product['size']*$product['amount'] || $product['amount']*$product['size'] > 100))
+					{
+						$can_have = floor($this->cars[$i]['size']/$product['size']);
+						if(floor($this->cars[$i]['weight']/$product['weight']) < $can_have) $can_have = floor($this->cars[$i]['weight']/$product['weight']);
+						
+						if($can_have > $product['amount'])
+						{
+							$this->cars[$i]['size'] -= $product['size']*$product['amount'];
+							$this->cars[$i]['weight'] -= $product['weight']*$product['amount'];
+							$inserted_count = $product['amount'];
+						}
+						else
+						{
+							$this->cars[$i]['size'] -= $can_have*$product['size'];
+							$this->cars[$i]['weight'] -= $can_have*$product['weight'];
+							$inserted_count = $can_have;
+						}
+
+						$product['amount'] -= $inserted_count;
+						$this->cars[$i]['products'][] = array (
+								'product_id' => $product['product_id'],
+								'product_amount' => $inserted_count,
+								'product_name' => $product['name'],
+									);
+						if($this->cars[$i]['area'] == 0)
+						{
+							$this->cars[$i]['area'] = $product['area'];
+						}	
+					}
+				}				
 			}
 		}
+		
+		$data = array();
 		
 		foreach ($this->cars as $temp)
 		{
@@ -216,6 +253,7 @@ class OptimalizationPresenter extends BasePresenter
 			{
 				$temp1['car_id'] = $temp['car_id'];
 				$temp1['car_free_size'] = $temp['size']. ' m³';
+				$temp1['car_free_weight'] = $temp['weight']. ' kg';
 				$temp1['product_id'] = $product['product_id'];
 				$temp1['product_name'] = $product['product_name'];
 				$temp1['product_amount'] = $product['product_amount'];
@@ -225,87 +263,8 @@ class OptimalizationPresenter extends BasePresenter
 		}
 		$_SESSION['data'] = $data;
 		
-//		$_SESSION['data'] = $data;
 		$this['distributionPlanGrid']->setModel($data);
 		$this['distributionPlanGrid']->redrawControl();
-		//dump($this['distributionPlanGrid']);
-//		die();
-//		
-//		$this->distributionPlan = $this->cars;
-//		foreach ($this->cars as $temp)
-//		{
-//			dump($temp);
-//		}
-//		die();
-//		
-//		
-//		$car_id = 0;
-//		while (count($sorted_products) > 0 && $this->cars[count($this->cars)-1]['avaible'])
-//		{
-//			for($i = 0; $i< count($this->cars); $i++)
-//			{
-//				if($this->cars[$i]['avaible'])
-//				{
-//					$car_id = $i;
-//					$this->cars[$i]['avaible'] = false;
-//					break;
-//				}
-//			}
-////			foreach ($sorted_products as $product)
-////			{
-//			for($i = 0; $i < count($sorted_products); $i++)
-//			{
-//				if($sorted_products[$i]['amount'] > 0 && $this->cars[$car_id]['size'] > $sorted_products[$i]['size'])
-//				{	
-//					$can_have = floor($this->cars[$car_id]['size']/$sorted_products[$i]['size']);
-//					
-//					if($can_have > $sorted_products[$i]['amount'])
-//					{
-//						$this->cars[$car_id]['size'] -= $sorted_products[$i]['size']*$sorted_products[$i]['amount'];
-//						$inserted = $sorted_products[$i]['amount'];
-//					}
-//					else
-//					{
-//						$this->cars[$car_id]['size'] -= $can_have*$sorted_products[$i]['size'];
-//						$inserted = $can_have;
-//					}
-//					
-//					$sorted_products[$i]['amount'] -= $inserted;
-//					$this->cars[$car_id]['products'][] = array (
-//							'product_id' => $sorted_products[$i]['id'],
-//							'products_amount' => $inserted
-//								);
-////					if($sorted_products[$i]['size']*$sorted_products[$i]['amount'] < $this->cars[$car_id]['size'])
-////					{
-////						$this->cars[$car_id]['size'] -=  $sorted_products[$i]['size']*$sorted_products[$i]['amount'];
-////						$this->cars[$car_id]['products'][] = array (
-////							'product_id' => $sorted_products[$i]['id'],
-////							'products_amount' => $sorted_products[$i]['amount']
-////								);
-////						$sorted_products[$i]['amount'] = 0;
-////					}
-////					else if(floor($this->cars[$car_id]['size']/$sorted_products[$i]['size']) > 0)
-////					{
-////						$can_have = floor($this->cars[$car_id]['size']/$sorted_products[$i]['size']);
-////						$this->cars[$car_id]['size'] -= $can_have*$sorted_products[$i]['size'];
-////						//dump($sorted_products[$i]['amount']);
-////						$sorted_products[$i]['amount'] -= $can_have;
-////						//dump($sorted_products[$i]['amount']);
-////						$this->cars[$car_id]['products'][] = array (
-////							'product_id' => $sorted_products[$i]['id'],
-////							'products_amount' => $can_have
-////								);
-////					}
-//				}
-//			}
-//		}
-//		for($i = 0; $i < count($this->cars); $i++)
-//		{
-//			if(empty($this->cars[$i]['products']))
-//			{
-//				$this->cars[$i]['avaible'] = true;
-//			}
-//		}
 	}
 	
 	private function sortArray($products)
@@ -331,5 +290,34 @@ class OptimalizationPresenter extends BasePresenter
 		}
 		return $sorted_products;
 	}
+	
+	/**
+     * @param int $order_id
+     */
+    public function actionAdd($order_id)
+    {
+		ini_set('max_execution_time',500);
+		$data = $this->ordersModel->getOrder($order_id);		
+		$product = $this->productsModel->getProduct($data->product_id);
+		$orders = $this->ordersModel->getOrdersProduct($data->product_id);
+		$amount = $data->product_amount;
+		foreach ($orders as $temp)
+		{
+			$amount += $temp->product_amount;
+		}
+		if($product->amount == $amount)
+		{
+			$this->productsModel->update($data->product_id, array('status' => 2));
+			mail($product->email, 'Objednavka cislo'.$product->product_id , 'Celá Vaša objednávka s číslom '.$product->product_id.' bola úspešne doručená.', 'From: ltranstransportcompany@gmail.com');	
+		
+		}
+		else
+		{
+			mail($product->email, 'Objednavka cislo'.$product->product_id , 'Časť Vašej objednávky s číslom '.$product->product_id.' a množstvom '.$data->product_amount.' bolo úspešne doručené.', 'From: ltranstransportcompany@gmail.com');	
+		}
+		$this->ordersModel->update($order_id, array('delivered' => new DateTime()));
+		$this->flashMessage('Objednávka bola doručená!', 'success');
+        $this->redirect('Optimalization:driver');
+    }
 }
 

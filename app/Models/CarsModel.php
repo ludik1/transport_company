@@ -12,7 +12,7 @@ final class CarsModel extends BaseModel
 	
 	public function getAllCars()
 	{
-		$data = $this->db->select('*')->from($this->table)->join('user_data')->using('(user_id)')->fetchAll();
+		$data = $this->db->select('*')->from($this->table)->leftJoin('user_data')->using('(user_id)')->orderBy('car_id DESC')->fetchAll();
 		
 		foreach ($data as $temp)
 		{
@@ -26,7 +26,7 @@ final class CarsModel extends BaseModel
 	
 	public function getFreeCars()
 	{
-		return $this->db->select('*')->from($this->table)->where('user_id IS NULL')->fetchAll();
+		return $this->db->select('*')->from($this->table)->where('user_id IS NULL')->fetchPairs('car_id', 'car_id');
 	}
 	
 	public function insertCar($values)
@@ -47,7 +47,7 @@ final class CarsModel extends BaseModel
 	public function getCarsForTransport($date)
 	{		
 		$result = array();
-		$data = $this->db->select('*')->from($this->table)->fetchAll();
+		$data = $this->db->select('*')->from($this->table)->where('user_id IS NOT NULL')->fetchAll();
 		foreach ($data as $row)
 		{
 			if(!($row->reserved_from <= $date && $row->reserved_to >= $date))
@@ -58,8 +58,8 @@ final class CarsModel extends BaseModel
 		return $result;
 	}
 	
-	public function getUser($user_id)
+	public function getDriverData($car_id)
 	{
-		$this->db->select('*')->from('user_data')->where('user_id=',$user_id)->fetch();
+		return $this->db->select('*')->from($this->table)->join('user_data')->using('(user_id)')->where('car_id="'.$car_id.'"')->fetch();
 	}
 }

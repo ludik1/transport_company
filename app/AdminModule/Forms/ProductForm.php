@@ -2,7 +2,8 @@
 
 namespace FrontModule\Forms;
 
-use FRI\Application\UI\Form;
+use Hyp\Application\UI\Form,
+	\Nette\Utils\DateTime;
 
 final class ProductForm extends Form
 {
@@ -33,6 +34,8 @@ final class ProductForm extends Form
 		$this->addText('name', 'Názov produktu')
 			->setRequired();
 		$this->addText('amount', 'Počet')
+			->addRule(self::INTEGER, 'Počet musí byť číslo')
+			->addRule(self::RANGE, 'Počet musí byť od 1 do 1000000', array(1, 1000000))
 			->setRequired();		
 		$this->addText('size', 'Veľkosť (m³)')
 			->addRule(self::INTEGER, 'Veľkosť musí byť číslo')
@@ -42,7 +45,15 @@ final class ProductForm extends Form
 			->addRule(self::INTEGER, 'Váha musí byť číslo')
 			->addRule(self::RANGE, 'Váha musí byť od 1 do 1000', array(1, 1000))
 			->setRequired();
+//		$this->addDate('date', 'Dátum doručenia')
+//			->addRule(function($item)
+//			{
+//				if($item->value > new DateTime()) return true;
+//				return false;
+//			}, 'Zadali ste nevalidný dátum')
+//			->setRequired();	
 		$this->addDate('date', 'Dátum doručenia')
+			->addRule(\ProductFormRules::DATE, 'Zadali ste nevalidný dátum')
 			->setRequired();	
 		$this->addSelect('from', 'Doručenie z mesta')
 			->setItems($this->cities)
@@ -55,4 +66,5 @@ final class ProductForm extends Form
 			->setRequired();
 		$this->addTextArea('info', 'Informácie o produkte');		
 	}
+	
 }

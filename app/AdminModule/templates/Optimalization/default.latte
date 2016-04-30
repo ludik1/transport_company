@@ -13,14 +13,15 @@
    <li><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
-   <li><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li><a n:href=":Admin:Product:default">Objednávky</a></li>
    <li n:if="$user->isInRole(1)" class='active has-sub'><a n:href=":Admin:Optimalization:default">Správa dopravy</a></li>
    <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
    <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
 </ul>
 </div>
 <div class="body">
-<a n:href=":Admin:Optimalization:optimalization" class="button1">Vytvoriť plán rozvozu</a>
+<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
+<a n:href=":Admin:Optimalization:optimalization" class="button">Vytvoriť plán rozvozu</a>
 
 {block content}
 	<div style="padding-top: 30px; width: 80%; margin:0 auto;">

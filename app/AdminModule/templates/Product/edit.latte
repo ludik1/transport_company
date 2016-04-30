@@ -10,10 +10,10 @@
 <div style="margin: 8px;">
 <div id='cssmenu'>
 <ul>
-   <li><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
+   <li n:if="$user->isInRole(1)"><a n:href=":Admin:Homepage:"><span>Home</span></a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:User:default">Užívatelia</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Car:default">Vozidlá</a></li>
-   <li class='active has-sub'><a n:href=":Admin:Product:default">Produkt</a></li>
+   <li class='active has-sub'><a n:href=":Admin:Product:default">Objednávky</a></li>
    <li n:if="$user->isInRole(1)"><a n:href=":Admin:Optimalization:default">Správa dopravy</a></li>
    <li><a n:href=":Front:Homepage:">Prejsť na web</a></li>
    <li class='last'><a n:href=":Front:Auth:out">Odhlásiť</a></li>
@@ -51,7 +51,8 @@ $.datepicker.regional['sk'] = {
 $.datepicker.setDefaults($.datepicker.regional['sk']);
   $(function() {
     $( "#frm-productForm-date" ).datepicker();
-	$( "#frm-productForm-date" ).datepicker( "option", "dateFormat", "dd.mm.yy" );
+	$( "#frm-productForm-date" ).datepicker( "option", "dateFormat", "dd.mm.yy");
+	$( "#frm-productForm-date" ).datepicker( "option", "minDate", "1" );
   });
   </script>
 </div>

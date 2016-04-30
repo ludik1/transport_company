@@ -5,7 +5,7 @@ namespace AdminModule\Datagrids;
 use Models\OrdersModel,
 	Nette\Utils\Html;
 
-class OrdersGrid extends \FRI\Application\UI\Controls\BaseGrid
+class OrdersGrid extends \Hyp\Application\UI\Controls\BaseGrid
 {
 	/**
 	 * @var OrdersModel
@@ -29,7 +29,8 @@ class OrdersGrid extends \FRI\Application\UI\Controls\BaseGrid
 	protected function configure(\Nette\Application\UI\Presenter $presenter)
 	{
 		parent::configure($presenter);
-		$this->setModel($this->ordersModel->getOrders());		
+		$this->setModel($this->ordersModel->getOrders());
+			
 		//$this->setPrimaryKey($this->productsModel->getPrimaryKeyName());
 		$this->setRememberState(TRUE);
 		$this->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
@@ -38,6 +39,10 @@ class OrdersGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 
+		$this->addColumnText('product_id', 'ID objednávky')
+			->setSortable()
+			->setFilterText();
+		
 		$this->addColumnText('name', 'Názov produktu')
 			->setSortable()
 			->setFilterText();
@@ -46,7 +51,10 @@ class OrdersGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnDate('date', 'Dátum dovozu')
+		$this->addColumnDate('date', 'Dátum vyhotovenia')
+			->setSortable()
+			->setFilterText();
+		$this->addColumnText('delivered', 'Doručené')
 			->setSortable()
 			->setFilterText();
 	}

@@ -5,7 +5,7 @@ namespace AdminModule\Datagrids;
 use Models\CarsModel,
 	Nette\Utils\Html;
 
-class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
+class CarsGrid extends \Hyp\Application\UI\Controls\BaseGrid
 {
 	/**
 	 * @var CarsModel
@@ -39,6 +39,10 @@ class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
+		$this->addColumnText('user_id', 'ID šoféra')
+			->setSortable()
+			->setFilterText();
+		
 		$this->addColumnText('fullname', 'Meno šoféra')
 			->setSortable()
 			->setFilterText();
@@ -54,6 +58,10 @@ class CarsGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->addActionHref('edit', '')
             ->setIcon('pencil')
             ->getElementPrototype()->setTitle('Upraviť');
+		
+		$this->addActionHref('editDriver', '')
+            ->setIcon('user')
+            ->getElementPrototype()->setTitle('Upraviť sofera');
 
         $this->addActionHref('delete', '', 'delete!')
             ->setIcon('trash icon-white')

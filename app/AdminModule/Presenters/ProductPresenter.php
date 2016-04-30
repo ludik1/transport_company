@@ -62,10 +62,10 @@ class ProductPresenter extends BasePresenter
 		$values->user_id = $this->user->getId();
 		$weight = 0;
 		if($values->size > 50) $weight = 2;
-		$values->price = (5*$values->size + $weight)* $this->getPriorityPrice($values->priority);
+		$values->price = ($this->getSizePrice($values->size)*$values->size + $weight) * $this->getPriorityPrice($values->priority) * $values->amount;
 		$this->productsModel->insert($values);
 		
-		$this->flashMessage('Produkt bol úspešne vložený!');
+		$this->flashMessage('Produkt bol úspešne vložený!', 'success');
 		$this->redirect(':Admin:Product:default');
 	}
 	
@@ -83,6 +83,31 @@ class ProductPresenter extends BasePresenter
 			default:
 				return 1;
 		}
+	}
+	
+	private function getSizePrice($size)
+	{
+		if($size < 20)
+		{
+			return 10;
+		}
+		else if($size < 50)
+		{
+			return 9;
+		}
+		else if($size < 100)
+		{
+			return 8;
+		}
+		else if($size < 200)
+		{
+			return 7;
+		}
+		else if($size < 500)
+		{
+			return 6;
+		}
+		return 5;
 	}
 
 	/**
@@ -107,10 +132,10 @@ class ProductPresenter extends BasePresenter
         $values = $form->getValues();
 		$weight = 0;
 		if($values->size > 50) $weight = 2;
-		$values->price = (5*$values->size + $weight)* $this->getPriorityPrice($values->priority);
+		$values->price = ($this->getSizePrice($values->size)*$values->size + $weight) * $this->getPriorityPrice($values->priority) * $values->amount;
         $this->productsModel->update($this->template->product, $values);
 		
-        $this->flashMessage('Produkt bol úspešne editovaný!');
+        $this->flashMessage('Produkt bol úspešne editovaný!', 'success');
         $this->redirect('Product:');
     }
 
@@ -121,7 +146,7 @@ class ProductPresenter extends BasePresenter
     {
         $this->productsModel->delete($product_id);
 		
-		$this->flashMessage('Produkt bol úspešne vymazaný!');
+		$this->flashMessage('Produkt bol úspešne vymazaný!', 'success');
         $this->redirect('Product:');
     }
 }

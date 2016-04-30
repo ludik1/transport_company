@@ -899,7 +899,7 @@
                 .off('keydown.grido')
                  .on('keydown.grido',  keydown);
         }
-    };
+    }
 
     /*        GRIDO HELPERS       */
     /* ========================== */

@@ -3,7 +3,7 @@
 	border: 1px solid #999999;
 	border-radius: 5px;
     display: inline-block;
-    width: 115px;
+    width: auto;
     height: 25px;
     padding: 10px;
     text-align: center;
@@ -23,7 +23,7 @@
 	border: 1px solid #999999;
 	border-radius: 5px;
     display: inline-block;
-    width: 175px;
+    width: auto;
     height: 25px;
     padding: 10px;
     text-align: center;
@@ -62,12 +62,28 @@
 .controls{
 	padding-bottom: 5px;
 }
-.flash {
-	background: #67e567 none repeat scroll 0 0;
-    border: 1px solid #33ff33;
+.flash{
 	border-radius: 5px;
     margin: 5px auto;
     padding: 0.5em;
     text-align: center;
     width: 300px;
+}
+.success{
+	background: #67e567 none repeat scroll 0 0;
+    border: 1px solid #33ff33;
+
+}
+.wrong{
+	background: #ff0000 none repeat scroll 0 0;
+    border: 1px solid #ff0000;	
+}
+.info{
+	background: #ffff00 none repeat scroll 0 0;
+    border: 1px solid #ffff00;	
+}
+#frm-productForm-info, #frm-userEditForm-address, #frm-userForm-address{
+	height: 80px;
+	max-width: 250px;
+	min-width: 250px; 
 }

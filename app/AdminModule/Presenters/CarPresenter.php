@@ -68,16 +68,33 @@ class CarPresenter extends BasePresenter
 		
 		$this->carsModel->insertCar($values);
 		
-		$this->flashMessage('Vozidlo bolo úspešne pridané!');
+		$this->flashMessage('Vozidlo bolo úspešne pridané!', 'success');
 		$this->redirect(':Admin:Car:default');
 	}
 	
 	protected function createComponentDriverForm()
 	{
-		$form = new DriverForm($this->usersModel->getDrivers(), $this->carsModel->getFreeCars());
-		$form->onSuccess[] = $this->driverFormSubmitted;
+		$form = new DriverForm();
+		//$form->onSuccess[] = $this->driverFormSubmitted;
 		
 		return $form;
+	}
+	
+	public function actionAddDriver()
+	{
+		$form = $this['driverForm'];
+		$form->addSelect('user_id', 'Šofér')
+			->setPrompt('Vyberte prosím')
+			->setItems($this->usersModel->getDrivers())
+			->setRequired();
+		$form->addSelect('car_id', 'Evidenčné číslo auta')
+			->setPrompt('Vyberte prosím')
+			->setItems($this->carsModel->getFreeCars())
+			->setRequired();
+		$form->addSubmit('ok', 'Pridať');
+		$form->onSuccess[] = $this->driverFormSubmitted;
+
+		$this->template->title = 'Pridanie šoféra';
 	}
 	
 	public function driverFormSubmitted(DriverForm $form)
@@ -86,7 +103,7 @@ class CarPresenter extends BasePresenter
 
 		$this->carsModel->updateDriver($values);
 		
-		$this->flashMessage('Vozidlo bolo úspešne pridané!');
+		$this->flashMessage('Vozidlo bolo úspešne pridané!', 'success');
 		$this->redirect(':Admin:Car:default');
 	}
 	
@@ -108,6 +125,42 @@ class CarPresenter extends BasePresenter
 		$form->onSuccess[] = $this->carFormEdit;
     }
 	
+	/**
+     * @param int $car_id
+     */
+    public function actionEditDriver($car_id)
+    {
+		$driver = $this->carsModel->getDriverData($car_id);
+        $car = $this->usersModel->getDriversEdit($car_id);
+		if (!$car)
+		{
+			$this->error();
+		}
+//		dump($car);die();
+		$this->template->car = $car_id;
+		$form = $this['driverForm'];
+		$form->addSelect('user_id', 'Zmeniť šoféra na')
+			->setRequired();
+		$form['user_id']->setItems($car);
+		if ($driver) $form->setDefaults($this->usersModel->getDriverEdit($car_id));
+		$form->addSubmit('ok', 'Upraviť');
+		$form->onSuccess[] = $this->driverFormEdit;
+    }
+	
+	public function driverFormEdit(DriverForm $form)
+    {
+        $values = $form->getValues();
+		unset($values->car_id);
+		if ($values->user_id == 0)
+		{
+			$values->user_id = null;
+		}
+        $this->carsModel->updateCar($this->template->car, $values);
+		
+        $this->flashMessage('Vozidlo bolo úspešne editované!', 'success');
+        $this->redirect('Car:');
+    }
+	
 	public function carFormEdit(CarForm $form)
     {
         $values = $form->getValues();
@@ -115,7 +168,7 @@ class CarPresenter extends BasePresenter
 		
         $this->carsModel->updateCar($this->template->car, $values);
 		
-        $this->flashMessage('Vozidlo bolo úspešne editované!');
+        $this->flashMessage('Vozidlo bolo úspešne editované!', 'success');
         $this->redirect('Car:');
     }
 	
@@ -126,7 +179,7 @@ class CarPresenter extends BasePresenter
     {
         $this->carModel->delete($car_id);
 		
-		$this->flashMessage('Vozidlo bolo úspešne vymazané!');
+		$this->flashMessage('Vozidlo bolo úspešne vymazané!', 'success');
         $this->redirect('Car:');
     }
 }

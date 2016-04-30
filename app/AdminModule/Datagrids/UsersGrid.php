@@ -5,7 +5,7 @@ namespace AdminModule\Datagrids;
 use Models\UsersModel,
 	Nette\Utils\Html;
 
-class UsersGrid extends \FRI\Application\UI\Controls\BaseGrid
+class UsersGrid extends \Hyp\Application\UI\Controls\BaseGrid
 {
 	/**
 	 * @var UsersModel

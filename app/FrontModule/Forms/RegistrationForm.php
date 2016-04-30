@@ -2,7 +2,7 @@
 
 namespace FrontModule\Forms;
 
-use FRI\Application\UI\Form;
+use Hyp\Application\UI\Form;
 
 final class RegistrationForm extends Form
 {

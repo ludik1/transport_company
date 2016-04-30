@@ -41,6 +41,10 @@ class DistributionPlanGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
+		$this->addColumnText('car_free_weight', 'Voľná kapacita')
+			->setSortable()
+			->setFilterText();
+		
 		$this->addColumnText('product_id', 'ID produktu')
 			->setSortable()
 			->setFilterText();

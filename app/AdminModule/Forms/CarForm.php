@@ -2,7 +2,7 @@
 
 namespace FrontModule\Forms;
 
-use FRI\Application\UI\Form;
+use Hyp\Application\UI\Form;
 
 final class CarForm extends Form
 {
@@ -22,31 +22,28 @@ final class CarForm extends Form
 	{
 		parent::configure($presenter);
 
-		$this->addSelect('user_id', 'Šofér', $this->drivers())
-			->setPrompt('Vyberte prosím')
-			->setRequired();
 		$this->addText('car_id', 'Evidenčné číslo auta')
 			->setRequired('Prosím vyplňte toto pole');
 
 		$this->addText('size', 'Veľkosť')
+			->setDefaultValue(100)
 			->setRequired();
 		
 		$this->addText('weight', 'Váha')
+			->setDefaultValue(25000)
 			->setRequired();
-		
 		$this->addDate('reserved_from', 'Rezervované od');
-		
-		$this->addDate('reserved_to', 'Rezervované do');
-	}
-	
-	public function drivers()
-	{
-		$drivers = array();
-		
-		foreach ($this->drivers as $driver)
-		{
-			$drivers[$driver->user_id] = $driver->name.' '.$driver->surname;
-		}
-		return $drivers;
+		$this->addDate('reserved_to', 'Rezervované do')
+			->addRule(function($dateTo)
+			{
+				$dateFrom = $this['reserved_from'];
+				if($dateFrom->value <= $dateTo->value){
+				return true;
+				}
+				?><script>alert('Dátum do musí byť neskorší ako dátum od.')</script><?php
+				return false;
+			}, 'Dátum do musí byť neskorší ako dátum od.')
+			->addConditionOn($this['reserved_from'], Form::FILLED, true)
+			->setRequired();
 	}
 }

@@ -33,7 +33,7 @@ class AuthPresenter extends BasePresenter
 	{
 		$this->user->logout();
 
-		$this->flashMessage('Boli ste úspešne odhlásení.', 'warning');
+		$this->flashMessage('Boli ste úspešne odhlásení.', 'info');
 		$this->redirect(':Front:Homepage:');
 	}
 		
@@ -58,7 +58,14 @@ class AuthPresenter extends BasePresenter
 		{
 			$this->user->setExpiration(0, TRUE);			
 			$this->user->login($values->login, sha1($values->password));
-
+			if ($this->getUser()->isInRole(1))
+			{
+				$this->redirect(':Admin:Homepage:');
+			} elseif ($this->getUser()->isInRole(2)) {
+				$this->redirect(':Admin:Optimalization:driver');
+			} elseif ($this->getUser()->isInRole(3)) {
+				$this->redirect(':Admin:Product:default');
+			}
 			$this->redirect(':Admin:Homepage:');
 		}
 		catch(AuthenticationException $e)
@@ -79,7 +86,7 @@ class AuthPresenter extends BasePresenter
 		$values->role_id = 3;
 		$this->usersModel->insertUser($values);
 
-		$this->flashMessage('Registrácia bola úspešná!');
+		$this->flashMessage('Registrácia bola úspešná!', 'success');
 		$this->redirect(':Front:Auth:login');
 	}
 	

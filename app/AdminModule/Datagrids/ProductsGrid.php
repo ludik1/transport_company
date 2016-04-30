@@ -5,7 +5,7 @@ namespace AdminModule\Datagrids;
 use Models\ProductsModel,
 	Nette\Utils\Html;
 
-class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
+class ProductsGrid extends \Hyp\Application\UI\Controls\BaseGrid
 {
 	/**
 	 * @var ProductsModel
@@ -30,13 +30,25 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 	protected function configure(\Nette\Application\UI\Presenter $presenter)
 	{
 		parent::configure($presenter);
-		if(isset($this->user)){
+		
+		if($presenter->getUser()->isInRole(3)){
 			$products = $this->productsModel->getAllUserProducts($this->user);
 			$temp = array();
 			foreach ($products as $product)
 			{
 				$product->from = $this->productsModel->getCityName($product->from)->name;
 				$product->to = $this->productsModel->getCityName($product->to)->name;
+				$product->size = $product->size.' m³';
+				$product->weight = $product->weight.' kg';
+				$product->price = $product->price.' €';
+				if($product->status)
+				{
+					$product->status = 'Odoslaný';
+				}
+				else
+				{
+					$product->status = 'Nespracovaný';
+				}
 				$temp[] = $product;
 			}
 			$this->setModel($temp);
@@ -46,6 +58,21 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			{
 				$product->from = $this->productsModel->getCityName($product->from)->name;
 				$product->to = $this->productsModel->getCityName($product->to)->name;
+				$product->size = $product->size.' m³';
+				$product->weight = $product->weight.' kg';
+				$product->price = $product->price.' €';
+				if($product->status == 0)
+				{
+					$product->status = 'Nespracovaná';
+				}
+				else if($product->status == 1)
+				{
+					$product->status = 'Odoslaná';					
+				}
+				else if($product->status == 2)
+				{
+					$product->status = 'Doručená';		
+				}
 				$temp[] = $product;
 			}
 			$this->setModel($temp);
@@ -55,7 +82,7 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 		$this->setRememberState(TRUE);
 		$this->setFilterRenderType(\Grido\Components\Filters\Filter::RENDER_INNER);
 
-		$this->addColumnText('name', 'Názov produktu')
+		$this->addColumnText('product_id', 'ID')
 			->setSortable()
 			->setFilterText();
 
@@ -87,19 +114,33 @@ class ProductsGrid extends \FRI\Application\UI\Controls\BaseGrid
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('price', 'Cena za kus')
+		$this->addColumnText('price', 'Cena')
 			->setSortable()
 			->setFilterText();
 		
-		$this->addColumnText('info', 'Info')
+		$this->addColumnText('status', 'Status')
 			->setSortable()
 			->setFilterText();
 		
 		$this->addActionHref('edit', '')
+			->setDisable(function($item) {
+			if($item->date> new \Dibi\DateTime() && $item->status == 'Nespracovaná')
+			{
+				return false;
+			}
+               return true;
+            })
             ->setIcon('pencil')
             ->getElementPrototype()->setTitle('Upraviť');
 
         $this->addActionHref('delete', '', 'delete!')
+			->setDisable(function($item) {
+				if($item->date > new \Dibi\DateTime() && $item->status == 'Nespracovaná')
+				{
+					return false;
+				}
+                return true;
+               })
             ->setIcon('trash icon-white')
             ->setConfirm('Naozaj chcete odstrániť záznam?')
             ->setElementPrototype(

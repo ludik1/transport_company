@@ -1,1 +1,0 @@
-viï dokumentáciu v"simple-selector.js"

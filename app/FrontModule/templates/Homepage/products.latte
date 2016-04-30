@@ -31,9 +31,11 @@
 		Spoločnosť L-Trans s.r.o. ponúka transport produktou automobilovou dopravou po celom slovensku. Zameriavame sa na veľké ako aj malé firmy. Garantujeme rýchly a profesionálny prístup k splneniu vašich požiadaviek. Ponúkame prepravu tovaru vo veľkostiach maximálne: výška 3 metre, šírka 2.5 metra a dĺžka 13.5 metra. 
 
 		<h2>Cenník</h2>
-		Cena tovaru závisí od veľkosti a taktiež priority odvozu Vášho balíka. Za každý meter kubický je cena 5€. Priorita zvyšuje cenu prepravy o:
-	
-	<div class="tableFrontend" >
+		Cena tovaru závisí od veľkosti a taktiež priority odvozu Vášho balíka. Základná cena za meter kubický je 10 €.
+		<br>
+	<div class="fleft">
+		Priorita navyšuje cenu prepravy o:
+		<div class="tableFrontend" >
                 <table >
                     <tr>
                         <td>
@@ -84,25 +86,73 @@
                         </td>
                     </tr>
                 </table>		
+		</div>
 	</div>
+		
+	<div class="fright">
+		Väčším zabratím úložného priestoru získavate zľavu:
+		<div class="tableFrontend" >
+                <table >
+                    <tr>
+                        <td>
+                            Veľkosť (m³)
+                        </td>
+                        <td >
+                            Cena (ks)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                             Nad 20
+                        </td>
+                        <td>
+                            9 €
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Nad 50
+                        </td>
+                        <td>
+                            8 €
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Nad 100
+                        </td>
+                        <td>
+                            7 €
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >
+                            Nad 200
+                        </td>
+                        <td>
+                            6 €
+                        </td>
+                    </tr>
+					<tr>
+                        <td >
+                            Nad 500
+                        </td>
+                        <td>
+                            5 €
+                        </td>
+                    </tr>
+                </table>
+		</div>
+	</div>
+	<div>
 	Každý produkt, ktorý má váhu väčšiu ako 50 kilogramov má prirážku v hodnote 2€.
+	</div>
 </div>
 {/block}
 <div class="footer">
 	Všetky práva vyhradené &copy; 2016
 </div>
 
-<script src="https://files.nette.org/sandbox/jush.js"></script>
-<script>
-	jush.create_links = false;
-	jush.highlight_tag('code');
-	$('code.jush').each(function(){ $(this).html($(this).html().replace(/\x7B[/$\w].*?\}/g, '<span class="jush-latte">$&</span>')) });
-
-	$('a[href^=#]').click(function(){
-		$('html,body').animate({ scrollTop: $($(this).attr('href')).show().offset().top - 5 }, 'fast');
-		return false;
-	});
-</script>
 
 
 

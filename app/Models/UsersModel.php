@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use FRI\Forms\Controls\Date;
+use Hyp\Forms\Controls\Date;
 
 final class UsersModel extends BaseModel
 {
@@ -82,7 +82,7 @@ final class UsersModel extends BaseModel
 			{
 				if($car->user_id == $user->user_id) $add = FALSE;
 			}
-			if($add) $arr[] = $user;
+			if($add) $arr[$user->user_id] = $user->name.' '.$user->surname;
 		}
 		return $arr;
 	}
@@ -98,5 +98,35 @@ final class UsersModel extends BaseModel
 		unset($values->role_id);
 		$this->db->update(self::USER_DATA, $values)->where('user_id =',$user_id)->execute();
 	}
+	public function getDriverEdit($user)
+	{
+		$userData = $this->db->select('*')->from('car')->join(self::USER_DATA)->using('(user_id)')->where('car_id="'.$user.'"')->fetch();
+		if (!$userData) return false;
+		return array('user_id' => $userData->user_id);
+	}
 	
+	public function getDriversEdit($user)
+	{
+		$userData = $this->db->select('*')->from('car')->join(self::USER_DATA)->using('(user_id)')->where('car_id="'.$user.'"')->fetch();
+		$arr = array('0' => 'Nepriradiť žiadného');
+		if ($userData)$arr[$userData->user_id] = $userData->name.' '.$userData->surname;
+		
+
+		$users = $this->db->select('u.user_id, ud.name, ud.surname, role_id')->from($this->table)->as("u")->join(self::USER_DATA)->as("ud")->using('(user_id)')->join(self::USER_ROLES)->as("ur")->using('(user_id)')->where('role_id=2')->fetchAll();
+	
+		$cars = $this->db->select('user_id')->from('car')->fetchAll();
+		
+		
+		
+		foreach ($users as $user)
+		{
+			$add = TRUE;
+			foreach ($cars as $car)
+			{
+				if($car->user_id == $user->user_id) $add = FALSE;
+			}
+			if($add) $arr[$user->user_id] =$user->name.' '.$user->surname;
+		}
+		return $arr;
+	}
 }

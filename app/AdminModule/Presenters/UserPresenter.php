@@ -66,7 +66,7 @@ class UserPresenter extends BasePresenter
 
 		$this->usersModel->insertUser($values);
 		
-		$this->flashMessage('Užívateľ bol úspešne vložený!');
+		$this->flashMessage('Užívateľ bol úspešne vložený!', 'success');
 		$this->redirect(':Admin:User:default');
 	}
 
@@ -135,7 +135,7 @@ class UserPresenter extends BasePresenter
 		unset($values->employed_to);
         $this->usersModel->updateUser($this->template->user_id, $values);
 		$this->usersModel->update($this->template->user_id, $user);
-        $this->flashMessage('Užívateľ bol úspešne editovaný!');
+        $this->flashMessage('Užívateľ bol úspešne editovaný!', 'success');
         $this->redirect('User:');
     }
 	
@@ -146,7 +146,7 @@ class UserPresenter extends BasePresenter
     {
         $this->usersModel->delete($user_id);
 		
-		$this->flashMessage('Užívateľ bol úspešne vymazaný!');
+		$this->flashMessage('Užívateľ bol úspešne vymazaný!', 'success');
         $this->redirect('User:');
     }
 	

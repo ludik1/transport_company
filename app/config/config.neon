@@ -30,7 +30,7 @@ common:
 		ordersModel: Models\OrdersModel
 
 		authenticator:
-			class: FRI\User\Authenticator
+			class: Hyp\User\Authenticator
 
 	extensions:
 		dibi: Dibi\Bridges\Nette\DibiExtension22
