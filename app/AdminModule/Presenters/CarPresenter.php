@@ -65,11 +65,17 @@ class CarPresenter extends BasePresenter
 	public function carFormSubmitted(CarForm $form)
 	{
 		$values = $form->getValues();
-		
-		$this->carsModel->insertCar($values);
-		
-		$this->flashMessage('Vozidlo bolo úspešne pridané!', 'success');
-		$this->redirect(':Admin:Car:default');
+		$isInserted = $this->carsModel->find($values->car_id);
+		if (!empty($isInserted))
+		{
+			$this->flashMessage('Vozidlo s týmto EČV sa už nachádza v systéme!', 'wrong');
+		}
+		else
+		{
+			$this->carsModel->insertCar($values);
+			$this->flashMessage('Vozidlo bolo úspešne pridané!', 'success');
+			$this->redirect(':Admin:Car:default');			
+		}		
 	}
 	
 	protected function createComponentDriverForm()
@@ -177,7 +183,7 @@ class CarPresenter extends BasePresenter
      */
     public function handleDelete($car_id)
     {
-        $this->carModel->delete($car_id);
+        $this->carsModel->deleteCar($car_id);
 		
 		$this->flashMessage('Vozidlo bolo úspešne vymazané!', 'success');
         $this->redirect('Car:');

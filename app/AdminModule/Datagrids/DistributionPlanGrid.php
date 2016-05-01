@@ -6,7 +6,7 @@ use Models\OrdersModel,
 	Nette\Utils\Html,
 	App\AdminModule\Presenters\OptimalizationPresenter;
 
-class DistributionPlanGrid extends \FRI\Application\UI\Controls\BaseGrid
+class DistributionPlanGrid extends \Hyp\Application\UI\Controls\BaseGrid
 {	
 	public function __construct()
 	{

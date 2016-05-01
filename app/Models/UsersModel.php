@@ -19,7 +19,7 @@ final class UsersModel extends BaseModel
 	public function getAllUsers()
 	{
 		$data = $this->db->select('u.user_id, ud.name, ud.surname, ud.personal_id, ud.email, ud.address, u.employed_from, u.employed_to, r.name as role_name')->from($this->table)->as("u")->join(self::USER_DATA)->as("ud")->using('(user_id)')->join(self::USER_ROLES)->as("ur")->using('(user_id)')->join(self::ROLE)->as("r")->using('(role_id)')->fetchAll();
-		
+		$result = array();
 		foreach ($data as $temp)
 		{
 			if(isset($temp->employed_from))

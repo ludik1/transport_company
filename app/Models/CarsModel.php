@@ -13,7 +13,7 @@ final class CarsModel extends BaseModel
 	public function getAllCars()
 	{
 		$data = $this->db->select('*')->from($this->table)->leftJoin('user_data')->using('(user_id)')->orderBy('car_id DESC')->fetchAll();
-		
+		$result = array();
 		foreach ($data as $temp)
 		{
 			$temp->size = $temp->size.' m³';
@@ -23,7 +23,11 @@ final class CarsModel extends BaseModel
 		}
 		return $result;
 	}
-	
+	public function deleteCar($car_id)
+	{
+		$this->db->delete($this->table)->where('car_id="'.$car_id.'"')->execute();
+	}
+
 	public function getFreeCars()
 	{
 		return $this->db->select('*')->from($this->table)->where('user_id IS NULL')->fetchPairs('car_id', 'car_id');

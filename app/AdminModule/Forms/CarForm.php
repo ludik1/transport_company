@@ -23,6 +23,7 @@ final class CarForm extends Form
 		parent::configure($presenter);
 
 		$this->addText('car_id', 'Evidenčné číslo auta')
+			->addRule(self::LENGTH,'Dĺžka EČV musí byť 7 znakov', 7)
 			->setRequired('Prosím vyplňte toto pole');
 
 		$this->addText('size', 'Veľkosť')

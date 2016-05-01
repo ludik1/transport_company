@@ -20,6 +20,7 @@
 </ul>
 </div>
 <div class="body">
+	<div n:foreach="$flashes as $flash" class="flash {$flash->type}">{$flash->message}</div>
 <div class="content_box">
 	{control carForm}
 </div>

@@ -85,6 +85,10 @@ class ProductsGrid extends \Hyp\Application\UI\Controls\BaseGrid
 		$this->addColumnText('product_id', 'ID')
 			->setSortable()
 			->setFilterText();
+		
+		$this->addColumnText('name', 'Názov')
+			->setSortable()
+			->setFilterText();
 
 		$this->addColumnText('amount', 'Počet')
 			->setSortable()
